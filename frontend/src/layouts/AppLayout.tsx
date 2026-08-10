@@ -1,7 +1,11 @@
-import { Link, NavLink, Outlet } from 'react-router-dom'
+import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
 
+import { api } from '@/api/client'
 import { ModeControl } from '@/components/ModeControl'
 import { Banner } from '@/components/ui/Banner'
+import { ToastProvider, useToast } from '@/components/ui/Toast'
+import { useAuthStore } from '@/stores/auth'
+import { useCartStore } from '@/stores/cart'
 import { useModeStore } from '@/stores/mode'
 
 const NAV_ITEMS = [
@@ -36,8 +40,100 @@ function ModeBanners() {
   )
 }
 
+const ICON_LINK =
+  'relative grid size-9 place-items-center rounded-lg border border-ink-700 bg-ink-900 text-base text-mist-300 transition-colors hover:border-ink-600 hover:text-mist-50'
+
+/** Cart + wishlist shortcuts and the login / user area. */
+function StoreControls() {
+  const itemCount = useCartStore((state) => state.itemCount)
+  const setCartId = useCartStore((state) => state.setCartId)
+  const setItemCount = useCartStore((state) => state.setItemCount)
+  const user = useAuthStore((state) => state.user)
+  const token = useAuthStore((state) => state.token)
+  const clearAuth = useAuthStore((state) => state.clear)
+  const navigate = useNavigate()
+  const toast = useToast()
+
+  async function handleLogout() {
+    try {
+      await api.auth.logout()
+    } catch {
+      // Logging out is best effort: the client session is cleared regardless.
+    }
+    clearAuth()
+    setCartId(null)
+    setItemCount(0)
+    toast({ tone: 'success', message: 'You are logged out.' })
+    navigate('/')
+  }
+
+  return (
+    <>
+      <Link to="/shop/wishlist" data-testid="wishlist-link" className={ICON_LINK} aria-label="Wishlist">
+        <span aria-hidden="true">♡</span>
+      </Link>
+
+      <Link
+        to="/shop/cart"
+        data-testid="cart-link"
+        className={ICON_LINK}
+        aria-label={`Cart, ${itemCount} item${itemCount === 1 ? '' : 's'}`}
+      >
+        <span aria-hidden="true">🛒</span>
+        <span
+          data-testid="cart-count"
+          aria-hidden="true"
+          className={`absolute -right-1.5 -top-1.5 min-w-5 rounded-full px-1 text-center text-[0.6875rem] font-bold leading-5 ${
+            itemCount > 0 ? 'bg-volt-500 text-ink-950' : 'bg-ink-700 text-mist-400'
+          }`}
+        >
+          {itemCount}
+        </span>
+      </Link>
+
+      {token && user ? (
+        <div className="flex items-center gap-2">
+          {user.role === 'admin' && (
+            <Link
+              to="/admin"
+              data-testid="admin-link"
+              className="rounded-lg border border-pulse-500/40 bg-pulse-500/15 px-2.5 py-1.5 text-xs font-semibold text-pulse-300 hover:bg-pulse-500/25"
+            >
+              Admin
+            </Link>
+          )}
+          <Link
+            to="/account/profile"
+            data-testid="user-name"
+            className="hidden max-w-32 truncate text-sm font-medium text-mist-200 hover:text-mist-50 sm:block"
+            title={user.email}
+          >
+            {user.name}
+          </Link>
+          <button
+            type="button"
+            data-testid="logout-button"
+            onClick={handleLogout}
+            className="rounded-lg border border-ink-600 bg-ink-800 px-2.5 py-1.5 text-xs font-medium text-mist-300 hover:bg-ink-700 hover:text-mist-50"
+          >
+            Log out
+          </button>
+        </div>
+      ) : (
+        <Link
+          to="/account/login"
+          data-testid="login-link"
+          className="rounded-lg border border-ink-600 bg-ink-800 px-3 py-1.5 text-sm font-medium text-mist-200 hover:bg-ink-700 hover:text-mist-50"
+        >
+          Log in
+        </Link>
+      )}
+    </>
+  )
+}
+
 /** Site chrome: header with nav, footer with the always-visible creator credit. */
-export default function AppLayout() {
+function AppChrome() {
   return (
     <div className="flex min-h-screen flex-col">
       <a href="#main" className="skip-link">
@@ -65,6 +161,8 @@ export default function AppLayout() {
 
           <div className="ml-auto flex items-center gap-3" data-testid="header-status-area">
             <ModeControl />
+            <span aria-hidden="true" className="h-6 w-px bg-ink-700" />
+            <StoreControls />
           </div>
         </div>
       </header>
@@ -103,5 +201,14 @@ export default function AppLayout() {
         </div>
       </footer>
     </div>
+  )
+}
+
+/** Everything inside the app chrome can raise toasts. */
+export default function AppLayout() {
+  return (
+    <ToastProvider>
+      <AppChrome />
+    </ToastProvider>
   )
 }

@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react'
 import { Route, Routes } from 'react-router-dom'
 
+import RequireAuth from '@/components/RequireAuth'
 import AppLayout from '@/layouts/AppLayout'
 import BareLayout from '@/layouts/BareLayout'
 import HomePage from '@/pages/HomePage'
@@ -23,6 +24,16 @@ const InnerFormPage = lazy(() => import('@/pages/frames/InnerFormPage'))
 const OuterFramePage = lazy(() => import('@/pages/frames/OuterFramePage'))
 const FrameResultPage = lazy(() => import('@/pages/frames/FrameResultPage'))
 const ShopIntroPage = lazy(() => import('@/pages/shop/ShopIntroPage'))
+const CatalogPage = lazy(() => import('@/pages/shop/CatalogPage'))
+const ProductDetailPage = lazy(() => import('@/pages/shop/ProductDetailPage'))
+const CartPage = lazy(() => import('@/pages/shop/CartPage'))
+const CheckoutPage = lazy(() => import('@/pages/shop/CheckoutPage'))
+const ConfirmationPage = lazy(() => import('@/pages/shop/ConfirmationPage'))
+const OrdersPage = lazy(() => import('@/pages/shop/OrdersPage'))
+const OrderDetailPage = lazy(() => import('@/pages/shop/OrderDetailPage'))
+const WishlistPage = lazy(() => import('@/pages/shop/WishlistPage'))
+const LoginPage = lazy(() => import('@/pages/account/LoginPage'))
+const RegisterPage = lazy(() => import('@/pages/account/RegisterPage'))
 const NotFoundPage = lazy(() => import('@/pages/NotFoundPage'))
 
 function RouteFallback() {
@@ -52,7 +63,24 @@ export default function App() {
           <Route path="playground/windows" element={<WindowsPage />} />
           <Route path="playground/files" element={<FilesPage />} />
           <Route path="playground/interactions" element={<InteractionsPage />} />
+          {/* Store — /shop is the mandatory pre-screen for the ecommerce path. */}
           <Route path="shop" element={<ShopIntroPage />} />
+          <Route path="shop/catalog" element={<CatalogPage />} />
+          <Route path="shop/product/:productId" element={<ProductDetailPage />} />
+          <Route path="shop/cart" element={<CartPage />} />
+          <Route path="account/login" element={<LoginPage />} />
+          <Route path="account/register" element={<RegisterPage />} />
+          {/* Signed-in-only area: anonymous visitors bounce to the login page
+              with a ?returnTo=. The profile page joins here next. */}
+          <Route element={<RequireAuth />}>
+            <Route path="shop/checkout" element={<CheckoutPage />} />
+            <Route path="shop/orders" element={<OrdersPage />} />
+            {/* The confirmation route is declared before the detail route so the
+                more specific path always wins. */}
+            <Route path="shop/orders/:orderId/confirmation" element={<ConfirmationPage />} />
+            <Route path="shop/orders/:orderId" element={<OrderDetailPage />} />
+            <Route path="shop/wishlist" element={<WishlistPage />} />
+          </Route>
           <Route path="*" element={<NotFoundPage />} />
         </Route>
         {/* Bare pages embedded by iframes / opened as popups — no app chrome. */}

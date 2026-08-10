@@ -9,21 +9,31 @@
 import { delay, http, HttpResponse } from 'msw'
 
 import * as auth from '@/engine/auth'
+import * as cart from '@/engine/cart'
 import * as catalog from '@/engine/catalog'
+import * as coupons from '@/engine/coupons'
 import * as files from '@/engine/files'
+import * as orders from '@/engine/orders'
+import * as reviews from '@/engine/reviews'
+import * as wishlist from '@/engine/wishlist'
 import { EngineError } from '@/engine/errors'
-import type { ProductQuery } from '@/api/types'
+import type { AddressInput, PaymentInput, ProductQuery } from '@/api/types'
 
 const APP_VERSION = '1.0.0'
 
-/** Simulated network latency so async UI behavior resembles a real backend. */
+/** Simulated network latency so async UI behavior resembles a real backend.
+ * Near-zero under Vitest to keep the suite fast. */
 async function latency() {
-  await delay(150 + Math.random() * 250)
+  await delay(import.meta.env.MODE === 'test' ? 1 : 150 + Math.random() * 250)
 }
 
 function bearerToken(request: Request): string | null {
   const header = request.headers.get('Authorization')
   return header?.startsWith('Bearer ') ? header.slice(7) : null
+}
+
+function cartIdHeader(request: Request): string | null {
+  return request.headers.get('X-Cart-Id')
 }
 
 function errorResponse(error: unknown) {
@@ -64,7 +74,13 @@ export const handlers = [
   }),
   http.post('*/api/auth/login', async ({ request }) => {
     const body = (await request.json()) as { email: string; password: string }
-    return run(() => auth.login(body))
+    const guestCartId = cartIdHeader(request)
+    return run(() => {
+      const result = auth.login(body)
+      // Mirror the backend: an X-Cart-Id on login merges the guest cart.
+      if (guestCartId) cart.mergeGuestCartIntoUser(guestCartId, result.user.id)
+      return result
+    })
   }),
   http.post('*/api/auth/logout', async ({ request }) =>
     run(() => {
@@ -108,6 +124,59 @@ export const handlers = [
     run(() => catalog.getProduct(params.productId as string)),
   ),
   http.get('*/api/categories', async () => run(() => catalog.listCategories())),
+  http.post('*/api/products/:productId/reviews', async ({ request, params }) => {
+    const body = (await request.json()) as { rating: number; title: string; body: string }
+    return run(() => reviews.createReview(bearerToken(request), params.productId as string, body), 201)
+  }),
+
+  // -- cart ---------------------------------------------------------------
+  http.post('*/api/cart', async ({ request }) => run(() => cart.createCart(bearerToken(request)), 201)),
+  http.get('*/api/cart', async ({ request }) =>
+    run(() => cart.getCart(bearerToken(request), cartIdHeader(request))),
+  ),
+  http.post('*/api/cart/items', async ({ request }) => {
+    const body = (await request.json()) as { productId: string; qty: number }
+    return run(() => cart.addItem(bearerToken(request), cartIdHeader(request), body), 201)
+  }),
+  http.patch('*/api/cart/items/:productId', async ({ request, params }) => {
+    const body = (await request.json()) as { qty: number }
+    return run(() =>
+      cart.updateItem(bearerToken(request), cartIdHeader(request), params.productId as string, body.qty),
+    )
+  }),
+  http.delete('*/api/cart/items/:productId', async ({ request, params }) =>
+    run(() => cart.removeItem(bearerToken(request), cartIdHeader(request), params.productId as string)),
+  ),
+  http.post('*/api/cart/coupon', async ({ request }) => {
+    const body = (await request.json()) as { code: string }
+    return run(() => cart.applyCoupon(bearerToken(request), cartIdHeader(request), body.code))
+  }),
+  http.delete('*/api/cart/coupon', async ({ request }) =>
+    run(() => cart.removeCoupon(bearerToken(request), cartIdHeader(request))),
+  ),
+  http.post('*/api/coupons/validate', async ({ request }) => {
+    const body = (await request.json()) as { code: string; subtotal: number }
+    return run(() => coupons.validateCouponForSubtotal(body.code, body.subtotal))
+  }),
+
+  // -- orders -------------------------------------------------------------
+  http.post('*/api/orders', async ({ request }) => {
+    const body = (await request.json()) as { shippingAddress: AddressInput; payment: PaymentInput }
+    return run(() => orders.checkout(bearerToken(request), body), 201)
+  }),
+  http.get('*/api/orders', async ({ request }) => run(() => orders.listOrders(bearerToken(request)))),
+  http.get('*/api/orders/:orderId', async ({ request, params }) =>
+    run(() => orders.getOrder(bearerToken(request), params.orderId as string)),
+  ),
+
+  // -- wishlist -----------------------------------------------------------
+  http.get('*/api/wishlist', async ({ request }) => run(() => wishlist.listWishlist(bearerToken(request)))),
+  http.post('*/api/wishlist/:productId', async ({ request, params }) =>
+    run(() => wishlist.addToWishlist(bearerToken(request), params.productId as string), 201),
+  ),
+  http.delete('*/api/wishlist/:productId', async ({ request, params }) =>
+    run(() => wishlist.removeFromWishlist(bearerToken(request), params.productId as string)),
+  ),
 
   // -- files ------------------------------------------------------------------
   // In browser mode the service worker streams these generated blobs, so the
