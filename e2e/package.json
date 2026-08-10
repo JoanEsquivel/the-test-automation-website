@@ -1,0 +1,17 @@
+{
+  "name": "e2e",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "description": "Playwright end-to-end suite — the same specs run against both API modes.",
+  "scripts": {
+    "test": "playwright test",
+    "test:browser": "playwright test --project=browser-mode",
+    "test:backend": "playwright test --project=backend-mode",
+    "report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.12.1",
+    "@playwright/test": "^1.62.1"
+  }
+}

@@ -85,6 +85,9 @@ export function ToastProvider({ children }: { children: ReactNode }) {
       {children}
       <div
         data-testid="toast-region"
+        // `role="status"` is an implicit polite live region AND, unlike a bare
+        // div, it is allowed to carry an accessible name (axe: aria-prohibited-attr).
+        role="status"
         aria-live="polite"
         aria-label="Notifications"
         className="pointer-events-none fixed bottom-4 right-4 z-50 flex w-[min(22rem,calc(100vw-2rem))] flex-col gap-2"

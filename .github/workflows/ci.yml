@@ -64,3 +64,46 @@ jobs:
           test -f frontend/dist/mockServiceWorker.js
           test -f frontend/dist/.nojekyll
           grep -q '/the-test-automation-website/assets/' frontend/dist/index.html
+
+  e2e:
+    name: Playwright e2e (both API modes)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      # Backend mode drives the real FastAPI server, so this job needs Python too.
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+      - name: Install backend dependencies
+        working-directory: backend
+        run: uv sync
+      - name: Install node dependencies
+        run: npm ci
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+      # The SAME specs run twice. browser-mode builds and serves the exact bundle
+      # that ships to GitHub Pages; backend-mode drives the Vite dev server against
+      # FastAPI on :8000. A spec that passes in one and fails in the other is a
+      # parity defect in the app, not a flaky test — so both steps always run and
+      # both reports are uploaded.
+      - name: e2e — browser mode (GitHub Pages artifact + service-worker API)
+        working-directory: e2e
+        env:
+          PLAYWRIGHT_HTML_OUTPUT_DIR: playwright-report/browser-mode
+        run: npx playwright test --project=browser-mode
+      - name: e2e — backend mode (Vite dev server + FastAPI on :8000)
+        if: ${{ !cancelled() }}
+        working-directory: e2e
+        env:
+          PLAYWRIGHT_HTML_OUTPUT_DIR: playwright-report/backend-mode
+        run: npx playwright test --project=backend-mode
+      - name: Upload Playwright HTML reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: e2e/playwright-report
+          retention-days: 7

@@ -19,24 +19,45 @@ function DownloadCard({
 }) {
   const url = api.files.downloadUrl(fileName)
 
-  function triggerDownload() {
+  /**
+   * Fetch the bytes, then save them from a blob URL.
+   *
+   * Letting the browser follow the href directly works in backend mode but NOT in
+   * browser mode: MSW's service worker deliberately ignores requests with
+   * `mode === 'navigate'`, which is exactly what an `<a download>` produces. On
+   * GitHub Pages the request would fall through to the SPA fallback and save
+   * index.html under the name of the file. Going through fetch() keeps ONE code
+   * path whose observable outcome — a file with the right name and bytes — is
+   * identical in both modes.
+   */
+  async function triggerDownload() {
+    const response = await fetch(url)
+    const objectUrl = URL.createObjectURL(await response.blob())
     const anchor = document.createElement('a')
-    anchor.href = url
+    anchor.href = objectUrl
     anchor.download = fileName
     anchor.click()
+    // Revoking synchronously can cancel the save in some browsers.
+    window.setTimeout(() => URL.revokeObjectURL(objectUrl), 10_000)
   }
 
   return (
     <VariantCard name={label} verdict="challenge">
       <p className="text-xs text-mist-400">{description}</p>
+      {/* The href stays the real API URL so it is inspectable and copyable; the
+          click is handled in JS for the reason explained above. */}
       <a
         href={url}
         download={fileName}
+        onClick={(event) => {
+          event.preventDefault()
+          void triggerDownload()
+        }}
         className="inline-flex w-fit items-center rounded-lg border border-ink-600 bg-ink-800 px-4 py-2 text-sm font-medium text-volt-300 hover:bg-ink-700"
       >
         Download {fileName}
       </a>
-      <Button size="sm" variant="secondary" onClick={triggerDownload}>
+      <Button size="sm" variant="secondary" onClick={() => void triggerDownload()}>
         Download via button
       </Button>
       <AutomationNote>
