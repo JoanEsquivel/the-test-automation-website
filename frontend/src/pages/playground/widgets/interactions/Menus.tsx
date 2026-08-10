@@ -13,8 +13,8 @@ export function HoverMenu() {
   return (
     <VariantCard name="5. Hover menu (pure CSS, nested)" verdict="challenge">
       <p className="text-xs text-mist-400">
-        The submenu is only rendered visible by CSS :hover/:focus-within — there is no click
-        handler to cheat with. Your tool must actually hover the chain.
+        CSS :hover and :focus-within are the only things that reveal the submenu. There is no
+        click handler to cheat with, so you have to hover the whole chain.
       </p>
       <nav aria-label="Hover menu demo" className="relative z-10">
         <div className="group/menu relative inline-block">
@@ -54,10 +54,10 @@ export function HoverMenu() {
       </nav>
       <ChallengeReadout testId="interactions-hover-readout" label="Selected" value={selection} />
       <AutomationNote>
-        Hover the trigger, THEN hover the &quot;Integrations&quot; row, THEN click the entry —
-        <code>locator.hover()</code> twice in Playwright, chained{' '}
-        <code>Actions.moveToElement()</code> in Selenium. Moving the mouse straight to the
-        submenu closes it.
+        Hover the trigger, then the &quot;Integrations&quot; row, then click the entry. That is{' '}
+        <code>locator.hover()</code> twice in Playwright, or chained{' '}
+        <code>Actions.moveToElement()</code> calls in Selenium. Jump the mouse straight at the
+        submenu and it closes before you get there.
       </AutomationNote>
     </VariantCard>
   )

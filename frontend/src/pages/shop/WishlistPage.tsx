@@ -70,8 +70,8 @@ export default function WishlistPage() {
     <div className="space-y-8">
       <PageIntro
         title="Wishlist"
-        what="Everything you have hearted, stored per account by GET /api/wishlist. Each card can be moved straight into the cart or dropped from the list."
-        how="Heart products from the catalog or a product page, then come back here. “Move to cart” adds one unit and removes the entry in a single go — a nice two-request flow to assert on."
+        what="Everything you have hearted, stored per account and served by GET /api/wishlist. Each card moves straight to the cart or drops off the list."
+        how="Heart products from the catalog or a product page, then come back. “Move to cart” adds one unit and removes the entry: two requests, one click, and both need asserting."
       />
 
       {error && (
@@ -91,7 +91,7 @@ export default function WishlistPage() {
             ♡
           </p>
           <h2 className="font-display mt-3 text-lg font-bold">Your wishlist is empty</h2>
-          <p className="mt-1 text-sm text-mist-400">Tap the heart on any product card to save it for later.</p>
+          <p className="mt-1 text-sm text-mist-400">Hit the heart on any product card to save it here.</p>
           <Link
             to="/shop/catalog"
             data-testid="wishlist-catalog-link"

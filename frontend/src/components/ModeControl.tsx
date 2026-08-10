@@ -27,10 +27,10 @@ export function ModeControl() {
         disabled={forced}
         title={
           forced
-            ? 'This deployment runs fully in your browser. Clone the repo and run the FastAPI backend locally to enable backend mode.'
+            ? 'This deployment has no backend to talk to. Clone the repo and run the FastAPI server locally to unlock backend mode.'
             : isBackend
-              ? 'Switch to in-browser mode (API served by a service worker)'
-              : 'Switch to backend mode (requires the local FastAPI server on :8000)'
+              ? 'Switch to in-browser mode: the API is served by a service worker'
+              : 'Switch to backend mode: needs the FastAPI server running on :8000'
         }
         onClick={() => switchMode(isBackend ? 'browser' : 'backend')}
         className={`relative h-6 w-11 rounded-full border transition-colors disabled:cursor-not-allowed disabled:opacity-40 ${

@@ -23,7 +23,7 @@ export function Sliders() {
   }
 
   return (
-    <VariantCard name="3. Sliders — native range & custom ARIA" verdict="challenge">
+    <VariantCard name="3. Sliders: native range & custom ARIA" verdict="challenge">
       <label className="flex flex-col gap-1 text-xs font-medium text-mist-400">
         Native range
         <input
@@ -117,8 +117,8 @@ export function CanvasPad() {
   return (
     <VariantCard name="4. Canvas pad (pointer drawing)" verdict="challenge">
       <p className="text-xs text-mist-400">
-        A canvas has no inner DOM to locate — you can only send coordinates and assert the
-        SIDE-EFFECTS the app exposes: stroke count and last position.
+        There is no DOM inside a canvas to locate. All you can do is send coordinates and assert
+        the SIDE-EFFECTS the app chooses to expose: stroke count and last position.
       </p>
       <canvas
         ref={canvasRef}
@@ -142,8 +142,8 @@ export function CanvasPad() {
       <ChallengeReadout testId="interactions-canvas-last" label="Last point" value={lastPoint} />
       <AutomationNote>
         Compute coordinates from the canvas bounding box, then{' '}
-        <code>mouse.move → down → move → up</code>. Never assert pixels — assert the readouts
-        the application mirrors out (or, in real apps, the data model behind the canvas).
+        <code>mouse.move → down → move → up</code>. Do not assert pixels. Assert the readouts the
+        app mirrors out, or in a real app, the data model sitting behind the canvas.
       </AutomationNote>
     </VariantCard>
   )

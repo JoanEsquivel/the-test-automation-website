@@ -84,7 +84,7 @@ export function AddressPicker({
               Use a new address
             </label>
             <p id="address-detail-new" className="text-mist-400">
-              Fill the form below — every field is validated inline.
+              Fill in the form below. Every field validates as you leave it.
             </p>
           </div>
         </div>

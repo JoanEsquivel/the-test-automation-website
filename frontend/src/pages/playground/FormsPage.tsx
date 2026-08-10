@@ -75,8 +75,8 @@ export default function FormsPage() {
     <div>
       <PageIntro
         title="Forms"
-        what="Checkboxes, radio groups, text inputs and switches — each built the recommended modern way and the ways you will actually meet in the wild."
-        how='Operate every variant and watch its readout change. Then press "Render summary" at the bottom and assert the whole state in one place. Crank the locator difficulty to see your selectors survive (or not).'
+        what="Checkboxes, radio groups, text inputs and switches. Each one is built the way you should build it, and then the ways you keep finding in real apps."
+        how='Click through every variant and watch its readout change. Then hit "Render summary" and assert the whole form state from one container. Raise the locator difficulty and run your script again to find out how much of it was leaning on test ids.'
       />
       <DifficultySelector />
 
@@ -125,7 +125,7 @@ export default function FormsPage() {
       >
         <h2 className="font-display text-xl font-bold text-mist-50">Verify your work</h2>
         <p className="mt-1 text-sm text-mist-400">
-          Render a snapshot of every value above, then assert against the summary container.
+          Snapshot every value above into one place, then assert against it.
         </p>
         <Button className="mt-4" onClick={() => setSummary(summaryRows(values))}>
           Render summary

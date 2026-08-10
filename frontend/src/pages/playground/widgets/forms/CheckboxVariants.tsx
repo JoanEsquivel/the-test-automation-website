@@ -16,7 +16,7 @@ export function CheckboxVariants({ native, fake, aria, onNative, onFake, onAria 
   return (
     <WidgetSection
       title="Checkbox"
-      description="Three ways teams ship a checkbox. Only the native one is free: label click, keyboard, form submission and accessibility all work without extra code."
+      description="Three ways teams ship a checkbox. The native one costs nothing: label clicks, keyboard, form submission and screen-reader support all work before you write any code. The other two are you rebuilding that by hand."
     >
       <VariantCard name='<input type="checkbox"> + <label>' verdict="recommended">
         <label className="flex cursor-pointer items-center gap-2">

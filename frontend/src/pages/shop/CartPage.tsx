@@ -98,8 +98,8 @@ export default function CartPage() {
     <div className="space-y-8">
       <PageIntro
         title="Cart"
-        what="Your basket, priced by the same normative math the API uses: subtotal, coupon discount, shipping (free over $50), 8% tax and the grand total. Guests get a cart too — it lives under an X-Cart-Id header and merges into your account when you log in."
-        how="Change quantities with the steppers, remove lines, then try a coupon: WELCOME10 works, SAVE20 needs a $100 subtotal, EXPIRED50 and DISABLED5 always fail. Every response — success or error — is shown verbatim in the coupon banner."
+        what="Your basket, priced by the same math the API uses: subtotal, coupon discount, shipping (free over $50), 8% tax, total. Guests get a cart too. It travels in an X-Cart-Id header and merges into your account the moment you log in."
+        how="Change quantities, remove lines, then try the coupons. WELCOME10 works. SAVE20 needs a $100 subtotal. EXPIRED50 and DISABLED5 always fail. The coupon banner prints the API response word for word, success or error, so you can assert on the real message."
       />
 
       {error && (
@@ -119,7 +119,7 @@ export default function CartPage() {
             🛒
           </p>
           <h2 className="font-display mt-3 text-lg font-bold">Your cart is empty</h2>
-          <p className="mt-1 text-sm text-mist-400">Add a product from the catalog and it will show up here.</p>
+          <p className="mt-1 text-sm text-mist-400">Add something from the catalog and it lands here.</p>
           <Link
             to="/shop/catalog"
             data-testid="empty-cart-catalog-link"
@@ -167,7 +167,7 @@ export default function CartPage() {
             </Link>
             {!token && (
               <p className="text-xs text-mist-500">
-                Checkout needs an account — you will be sent to the login page and back here afterwards.
+                Checkout needs an account. You will land on the login page and come straight back here.
               </p>
             )}
             <Link

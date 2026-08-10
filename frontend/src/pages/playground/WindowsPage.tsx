@@ -33,13 +33,13 @@ function NewWindowsSection() {
   return (
     <WidgetSection
       title="New windows & tabs"
-      description="Three ways to leave the current page: a target=_blank link, a small window.open popup, and a handshake round-trip you can assert from THIS tab."
+      description="Three ways to end up with a second page: a target=_blank link, a window.open popup, and a round-trip you can assert from THIS tab without switching."
       columns="md:grid-cols-3"
     >
       <VariantCard name='<a target="_blank">' verdict="challenge">
         <p className="text-xs text-mist-400">
-          A plain link that opens the result page in a new tab. Your driver must catch the new
-          page and switch to it.
+          A plain link that opens the result page in a new tab. Your driver has to catch the new
+          page before it can touch anything on it.
         </p>
         <a
           href={resultUrl()}
@@ -58,8 +58,8 @@ function NewWindowsSection() {
 
       <VariantCard name="window.open() popup" verdict="challenge">
         <p className="text-xs text-mist-400">
-          Opens the result page in a small popup window (420×520). Same handling as a tab — a
-          popup is just a page with less chrome.
+          Opens the result page in a 420×520 popup. Handle it exactly like a tab: a popup is just
+          a page with less chrome around it.
         </p>
         <Button
           size="sm"
@@ -68,15 +68,15 @@ function NewWindowsSection() {
           Open popup window
         </Button>
         <AutomationNote>
-          Identical to the tab case: wait for the new page/window handle. Never assume handle
-          ORDER — match on URL or title.
+          Same as the tab case: wait for the new page or window handle. Never assume the handles
+          come back in a useful ORDER. Match on URL or title.
         </AutomationNote>
       </VariantCard>
 
       <VariantCard name="Cross-tab handshake" verdict="challenge">
         <p className="text-xs text-mist-400">
-          The result page writes a value to localStorage when it loads; this tab polls and
-          displays it — an outcome you can assert WITHOUT switching back.
+          The result page writes a value to localStorage on load and this tab polls for it. That
+          gives you an outcome to assert WITHOUT switching context.
         </p>
         <div className="flex gap-2">
           <Button size="sm" onClick={() => window.open(resultUrl(), '_blank')}>
@@ -92,8 +92,8 @@ function NewWindowsSection() {
           value={handshake || 'waiting for the result page…'}
         />
         <AutomationNote>
-          Open the page, switch back to the opener and wait for this readout to change. It
-          proves the second page actually RAN, not just opened.
+          Open the page, come back to the opener and wait for this readout to change. That proves
+          the second page actually RAN, which "a new tab exists" does not.
         </AutomationNote>
       </VariantCard>
     </WidgetSection>
@@ -120,7 +120,7 @@ function NativeDialogsSection() {
   return (
     <WidgetSection
       title="Native dialogs"
-      description="alert(), confirm() and prompt() block the page until handled — drivers must accept, dismiss or answer them. Plus an opt-in beforeunload guard."
+      description="alert(), confirm() and prompt() block the page until something answers them, so a driver has to accept, dismiss or fill them. There is an opt-in beforeunload guard too."
       columns="md:grid-cols-2"
     >
       <VariantCard name="alert() & confirm()" verdict="challenge">
@@ -138,8 +138,9 @@ function NativeDialogsSection() {
         </div>
         <ChallengeReadout testId="windows-confirm-readout" label="confirm() result" value={confirmResult} />
         <AutomationNote>
-          Playwright auto-DISMISSES dialogs unless you register <code>page.on(&apos;dialog&apos;)</code> —
-          so an unhandled confirm() reads &quot;Cancel&quot; here. Selenium:{' '}
+          Playwright auto-DISMISSES dialogs unless you register{' '}
+          <code>page.on(&apos;dialog&apos;)</code>, which is why an unhandled confirm() reads{' '}
+          &quot;Cancel&quot; here. Selenium:{' '}
           <code>switchTo().alert().accept()/dismiss()</code>.
         </AutomationNote>
       </VariantCard>
@@ -179,8 +180,8 @@ export default function WindowsPage() {
     <div>
       <PageIntro
         title="Windows & dialogs"
-        what="New tabs, popup windows, a cross-tab localStorage handshake, and the four native browser dialogs (alert, confirm, prompt, beforeunload)."
-        how="Each opener targets /frames/result, which writes a handshake value this page displays. Dialog results land in readouts with stable test ids. New-window mechanics cannot run under jsdom — drive this page with Playwright or Selenium to practice for real."
+        what="New tabs, popup windows, a cross-tab localStorage handshake, and the four native dialogs: alert, confirm, prompt and beforeunload."
+        how="Every opener points at /frames/result, which writes a handshake value that this page picks up. Dialog answers land in readouts with stable test ids. None of the window mechanics work under jsdom, so drive this page with Playwright or Selenium."
       />
       <DifficultySelector />
       <NewWindowsSection />

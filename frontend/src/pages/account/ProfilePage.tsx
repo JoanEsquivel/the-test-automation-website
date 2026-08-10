@@ -158,8 +158,8 @@ export default function ProfilePage() {
     <div className="space-y-8">
       <PageIntro
         title="Profile"
-        what="Your account details and address book. The name field writes to PUT /api/auth/me; every address action maps to one /api/auth/me/addresses call, and the response is republished to the header immediately."
-        how="Rename yourself and save, then add, edit, promote or delete addresses. Promoting one address clears the previous default server-side — watch the badge move. Deleting always asks for confirmation first."
+        what="Account details and address book. The name field writes to PUT /api/auth/me. Every address action is one call to /api/auth/me/addresses, and the response goes straight back into the header."
+        how="Rename yourself and save. Add, edit, promote or delete addresses. Promoting one clears the previous default on the server, so watch the badge move rather than trusting the click. Deletes always ask first."
       />
 
       {error && (
@@ -281,7 +281,7 @@ export default function ProfilePage() {
                 data-testid="empty-addresses"
                 className="rounded-2xl border border-dashed border-ink-600 bg-ink-900 p-8 text-center text-sm text-mist-400"
               >
-                No saved addresses yet — add one here and it becomes selectable at checkout.
+                No saved addresses yet. Add one here and it shows up as an option at checkout.
               </p>
             ) : (
               <ul data-testid="address-list" className="grid gap-4 sm:grid-cols-2">
@@ -304,7 +304,7 @@ export default function ProfilePage() {
       {pendingDelete && (
         <ConfirmDialog
           title="Delete this address?"
-          message={`“${pendingDelete.label}” will be removed from your address book. Orders already placed keep their own snapshot of it.`}
+          message={`“${pendingDelete.label}” goes from your address book. Orders you already placed keep their own copy of it.`}
           busy={busyId === pendingDelete.id}
           onConfirm={handleDelete}
           onCancel={() => setPendingDelete(null)}

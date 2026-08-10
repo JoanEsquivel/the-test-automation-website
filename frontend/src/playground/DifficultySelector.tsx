@@ -9,7 +9,7 @@ const LEVEL_META: Record<DifficultyLevel, { label: string; hint: string; active:
   },
   medium: {
     label: 'Medium',
-    hint: 'no test ids — semantic classes, labels and roles only',
+    hint: 'no test ids, just semantic classes, labels and roles',
     active: 'bg-amber-500/20 text-amber-300 border-amber-500/50',
   },
   evil: {
@@ -61,8 +61,8 @@ export function DifficultySelector() {
       <p className="mt-3 text-xs leading-relaxed text-mist-400">
         <strong className="text-mist-300">Easy</strong>: {LEVEL_META.easy.hint} ·{' '}
         <strong className="text-mist-300">Medium</strong>: {LEVEL_META.medium.hint} ·{' '}
-        <strong className="text-mist-300">Evil</strong>: {LEVEL_META.evil.hint}. The selector itself
-        keeps its test id at every level.
+        <strong className="text-mist-300">Evil</strong>: {LEVEL_META.evil.hint}, so anything you
+        pinned to an id breaks on reload. This selector keeps its own test id at every level.
       </p>
     </section>
   )

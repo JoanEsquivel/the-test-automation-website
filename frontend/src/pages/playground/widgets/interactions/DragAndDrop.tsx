@@ -31,8 +31,8 @@ export function Html5DragDrop() {
   return (
     <VariantCard name="1. HTML5 drag & drop (draggable + drop targets)" verdict="challenge">
       <p className="text-xs text-mist-400">
-        Drag each card into a slot. HTML5 drag-and-drop fires dragstart/dragover/drop — some
-        drivers need synthetic events for this flavor.
+        Drag each card into a slot. This one runs on HTML5 dragstart/dragover/drop events, and
+        several drivers cannot produce them without help.
       </p>
       <div className="flex gap-2">
         {unplaced.map((card) => (
@@ -117,8 +117,8 @@ export function PointerSortable() {
   return (
     <VariantCard name="2. Pointer-based sortable list (mousedown → move → up)" verdict="challenge">
       <p className="text-xs text-mist-400">
-        No draggable attribute here — reordering listens to raw pointer events. Press an item,
-        move over another, release. Tools need genuine mouse-action sequences.
+        No draggable attribute. Reordering listens to raw pointer events, so press an item, move
+        it over another, release. A synthetic drop event does nothing here.
       </p>
       <ul className="select-none divide-y divide-ink-700 rounded-lg border border-ink-700">
         {items.map((item, index) => (

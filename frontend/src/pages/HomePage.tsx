@@ -8,12 +8,12 @@ const PATHS = [
     testId: 'path-playground',
     emoji: '🧩',
     title: 'Components Playground',
-    tagline: 'Master every element, one widget at a time.',
+    tagline: 'One widget, several implementations. Some of them awful.',
     bullets: [
-      'Checkboxes, dropdowns, tables, modals — each in legacy and modern variants',
-      'The correct modern implementation is always marked "Recommended"',
-      'Three locator difficulty levels: easy, medium and evil',
-      'Deliberate challenges: dynamic content, iframes, Shadow DOM, drag & drop',
+      'Checkboxes, dropdowns, tables and modals, built the good way and the legacy way',
+      'The implementation you should copy carries a "Recommended" badge',
+      'Locator difficulty: easy keeps the test ids, evil takes them away',
+      'Waits, iframes, Shadow DOM, drag & drop and other things that break scripts',
     ],
     accent: 'from-volt-500/25',
   },
@@ -22,12 +22,12 @@ const PATHS = [
     testId: 'path-store',
     emoji: '🛒',
     title: 'TAW Store',
-    tagline: 'A realistic ecommerce app to automate end to end.',
+    tagline: 'A shop that actually works, so you can automate a real journey.',
     bullets: [
-      'Catalog, cart, coupons, 3-step checkout with simulated payments',
-      'Auth, profiles, reviews, wishlist and order history',
-      'Admin dashboard with role-based access and data tables',
-      'Same REST API in the browser or against a real local backend',
+      'Catalog, cart, coupons and a 3-step checkout with simulated payments',
+      'Login, profiles, reviews, wishlist, order history',
+      'Admin dashboard behind a role check, with tables and charts',
+      'The same REST API in the browser or against a local backend',
     ],
     accent: 'from-pulse-500/25',
   },
@@ -41,11 +41,11 @@ export default function HomePage() {
           Selenium · Playwright · Cypress · Postman · RestAssured
         </p>
         <h1 className="font-display mx-auto max-w-3xl text-4xl font-bold leading-tight tracking-tight sm:text-5xl">
-          The definitive playground for <span className="text-gradient">test automation</span>
+          A place to practise <span className="text-gradient">test automation</span>
         </h1>
         <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-mist-300">
-          Practice web and API testing against real-world UI patterns and a fully working store —
-          with any tool on the market. Every page tells you exactly what it does and how to use it.
+          UI patterns that break scripts, and a working store to automate end to end. Bring whatever
+          tool you use. Every page says up front what it does and what to do with it.
         </p>
       </section>
 
@@ -90,16 +90,17 @@ export default function HomePage() {
           <div>
             <Badge tone="success">Backend mode · local</Badge>
             <p className="mt-2 text-sm leading-relaxed text-mist-300">
-              Run the FastAPI backend locally and the UI talks to it over real HTTP. Point Postman or
+              Run the FastAPI backend and the UI talks to it over real HTTP. Point Postman or
               RestAssured at <code className="rounded bg-ink-800 px-1.5 py-0.5 text-volt-300">localhost:8000/docs</code>{' '}
-              for genuine API testing practice.
+              and you have an API to test.
             </p>
           </div>
           <div>
             <Badge tone="pulse">Browser mode · this deployment</Badge>
             <p className="mt-2 text-sm leading-relaxed text-mist-300">
-              The same REST API is served inside your browser by a service worker, with data stored
-              locally. The UI behaves identically — perfect for UI automation anywhere, no setup needed.
+              A service worker serves the same REST API inside the tab and keeps the data in
+              localStorage. The UI behaves the same, so UI automation runs anywhere with no setup.
+              Network-level API testing needs the backend.
             </p>
           </div>
         </div>

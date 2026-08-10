@@ -29,7 +29,7 @@ export function ToggleVariants({ alerts, dark, slide, onAlerts, onDark, onSlide 
   return (
     <WidgetSection
       title="Toggle / switch"
-      description='A switch is a checkbox that flips immediately. role="switch" tells assistive tech (and your test framework) exactly what it is.'
+      description='A switch is a checkbox that applies straight away. role="switch" tells assistive tech, and your test framework, exactly which one it is looking at.'
     >
       <VariantCard name='<button role="switch">' verdict="recommended">
         <button
@@ -63,8 +63,8 @@ export function ToggleVariants({ alerts, dark, slide, onAlerts, onDark, onSlide 
           Dark mode
         </label>
         <p className="text-xs text-mist-500">
-          Semantically still a checkbox (announced as one), visually a switch. Common and workable,
-          but the hidden input trips naive visibility checks.
+          Still a checkbox underneath, announced as one, drawn as a switch. Common enough and it
+          works, but the real input is hidden, so a visibility check on it fails.
         </p>
         <Readout testId="forms-switch-hack-readout" label="Dark mode" value={dark ? 'on' : 'off'} />
       </VariantCard>

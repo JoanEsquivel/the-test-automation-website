@@ -92,8 +92,8 @@ function HoverDropdownCard() {
         </ul>
       </div>
       <p className="text-xs text-mist-500">
-        Opens on CSS :hover only — no click, no keyboard, no touch. Your tool needs real hover
-        actions (Actions API / hover()) to reach the items.
+        Opens on CSS :hover. No click, no keyboard, no touch. You need a real hover action
+        (hover() or the Actions API) to reach the items at all.
       </p>
       <Readout testId="dropdowns-hover-readout" label="Selected" value={choice || 'none'} />
     </VariantCard>
@@ -105,14 +105,14 @@ export default function DropdownsPage() {
     <div>
       <PageIntro
         title="Dropdowns"
-        what="One widget, four implementations: native select, custom ARIA listbox, an async searchable combobox and a hover-only relic."
-        how="Select a fruit natively, drive the listbox with arrow keys and Enter, then type in the combobox — its options arrive ~300 ms late on purpose, so your script must wait. Every card shows a Selected readout to assert."
+        what="One widget, four implementations: a native select, a custom ARIA listbox, an async searchable combobox, and a hover-only menu."
+        how="Select a fruit in the native one. Drive the listbox with arrow keys and Enter. Then type in the combobox: its options land about 300 ms late on purpose, so a script without a wait will read an empty list. Each card has a Selected readout to assert on."
       />
       <DifficultySelector />
 
       <WidgetSection
         title="Dropdown"
-        description="Native select is the right answer for plain choice; the combobox is the right answer when search is needed. The rest is practice for the wild."
+        description="Use the native select for a plain choice and the combobox when people need to search. The other two are here so you recognise them when a client ships one."
         columns="md:grid-cols-2"
       >
         <NativeSelectsCard />

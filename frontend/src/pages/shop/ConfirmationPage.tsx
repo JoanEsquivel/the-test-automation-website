@@ -13,17 +13,17 @@ const WHAT_HAPPENED = [
   {
     emoji: '💳',
     title: 'The payment was simulated',
-    body: 'The API ran the normative card rules — no money moved and nothing left your browser.',
+    body: 'The API applied the card rules and returned an approval. No money moved.',
   },
   {
     emoji: '📦',
     title: 'Stock was decremented',
-    body: 'Every ordered unit came off the product stock, so the catalog badges update immediately.',
+    body: 'Every unit came off the product stock, so the catalog badges are already different.',
   },
   {
     emoji: '🛒',
     title: 'Your cart was emptied',
-    body: 'The cart is now empty and the header badge is back to zero, exactly as a real store behaves.',
+    body: 'The cart is empty and the header badge is back to zero.',
   },
 ]
 
@@ -57,8 +57,8 @@ export default function ConfirmationPage() {
     <div className="space-y-8">
       <PageIntro
         title="Order confirmed"
-        what="The receipt screen you land on straight after a successful checkout. It shows the freshly minted order number and spells out every side effect the API just applied."
-        how="Copy the order number for your assertions, open the order detail for the full snapshot, or head back to the catalog and place another one."
+        what="The receipt you land on after a successful checkout. It carries the new order number and lists what the API changed on the way through."
+        how="Grab the order number for your assertions. Open the order detail for the full snapshot, or go back and place another one."
       />
 
       {error && (
@@ -78,7 +78,7 @@ export default function ConfirmationPage() {
             <p aria-hidden="true" className="text-5xl">
               ✅
             </p>
-            <h2 className="font-display mt-4 text-lg font-bold text-emerald-200">Thank you — your order is placed</h2>
+            <h2 className="font-display mt-4 text-lg font-bold text-emerald-200">Your order is placed</h2>
             <p
               data-testid="order-number"
               className="font-display mt-2 text-4xl font-bold tracking-tight text-mist-50 sm:text-5xl"

@@ -45,8 +45,8 @@ export default function OrderDetailPage() {
     <div className="space-y-8">
       <PageIntro
         title="Order detail"
-        what="The immutable snapshot of one order: the items and prices as they were at checkout, the shipping address, the card last4, the totals and where the order sits in its lifecycle."
-        how="Follow the status timeline from pending to delivered — an admin can move an order along from /admin/orders, and this page reflects it on the next load."
+        what="One order, frozen. Items and prices as they were at checkout, the shipping address, the card last4, the totals, and where the order currently sits."
+        how="Read the timeline from pending to delivered. An admin moves an order along from /admin/orders and this page picks it up on the next load, which makes a nice two-role test."
       />
 
       {error && (
@@ -138,7 +138,7 @@ export default function OrderDetailPage() {
                       {order.paymentMethod.last4}
                     </span>
                   </p>
-                  <p className="mt-2 text-xs text-mist-500">Simulated by the API — no real charge exists.</p>
+                  <p className="mt-2 text-xs text-mist-500">Simulated by the API. No charge exists.</p>
                 </section>
               </div>
 

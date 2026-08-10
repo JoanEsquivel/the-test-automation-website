@@ -43,7 +43,7 @@ export function ReviewSection({ reviews, canWrite, loginHref, submitting, error,
     <div className="space-y-6">
       {reviews.length === 0 ? (
         <p data-testid="reviews-empty" className="rounded-2xl border border-dashed border-ink-600 p-6 text-center text-sm text-mist-400">
-          No reviews yet — be the first to write one.
+          No reviews yet. Write the first one.
         </p>
       ) : (
         <ul data-testid="reviews-list" className="space-y-4">

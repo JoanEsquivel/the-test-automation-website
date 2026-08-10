@@ -63,7 +63,7 @@ function DownloadCard({
       <AutomationNote>
         Playwright: <code>const [download] = await Promise.all([page.waitForEvent(&apos;download&apos;),
         link.click()])</code>, then assert <code>download.suggestedFilename()</code>. Selenium has
-        no download API — configure the browser profile&apos;s download directory and poll the
+        no download API at all: point the browser profile at a known directory and poll the
         filesystem.
       </AutomationNote>
     </VariantCard>
@@ -100,7 +100,7 @@ function UploadSection() {
   return (
     <WidgetSection
       title="Upload"
-      description="Two entry points to the same POST /api/files/upload endpoint: the classic file input and a drag-drop zone. The server echoes what it received — your assertion target. Files over 1 MB are rejected."
+      description="Two ways into the same POST /api/files/upload endpoint: the file input and a drop zone. The server echoes back what it received. Anything over 1 MB is rejected."
       columns="md:grid-cols-2"
     >
       <VariantCard name='<input type="file">' verdict="challenge">
@@ -114,16 +114,16 @@ function UploadSection() {
           />
         </label>
         <AutomationNote>
-          The reliable path in every tool: <code>setInputFiles()</code> (Playwright) or{' '}
-          <code>sendKeys(absolutePath)</code> (Selenium) directly on the input — no OS file
-          dialog involved.
+          Set the file on the input itself: <code>setInputFiles()</code> in Playwright,{' '}
+          <code>sendKeys(absolutePath)</code> in Selenium. The OS file dialog never opens, which is
+          the point. Clicking the input and driving the dialog is not automation you can maintain.
         </AutomationNote>
       </VariantCard>
 
       <VariantCard name="Drag-drop zone" verdict="challenge">
         <button
           type="button"
-          aria-label="File drop zone — click to browse or drop a file"
+          aria-label="File drop zone: click to browse, or drop a file here"
           onClick={() => inputRef.current?.click()}
           onDragOver={(event) => {
             event.preventDefault()
@@ -140,9 +140,9 @@ function UploadSection() {
           {busy ? 'Uploading…' : 'Drop a file here (or click to browse)'}
         </button>
         <AutomationNote>
-          Drag-drop from the OS cannot be automated through the browser. Either dispatch a
-          synthetic <code>drop</code> event carrying a <code>DataTransfer</code> with your file,
-          or upload through the file input — same endpoint, same echo.
+          You cannot drag a file from the desktop into a browser under automation. Dispatch a
+          synthetic <code>drop</code> event carrying a <code>DataTransfer</code> with your file, or
+          just use the file input. Same endpoint, same echo.
         </AutomationNote>
       </VariantCard>
 
@@ -185,25 +185,25 @@ export default function FilesPage() {
     <div>
       <PageIntro
         title="Files"
-        what="Download a generated CSV and PDF from the Files API, and upload any small file — the server echoes fileName, sizeBytes and contentType for your assertions."
-        how="In backend mode FastAPI serves the files; in browser mode the MSW service worker generates and streams the very same bytes, so downloads work even on GitHub Pages. Uploads over 1 MB come back as a 400 VALIDATION_ERROR — try it."
+        what="Download a generated CSV and a real PDF from the Files API, and upload a small file back. The server echoes fileName, sizeBytes and contentType so you have something to assert."
+        how="In backend mode FastAPI serves the files. In browser mode the service worker generates the same bytes, so downloads work even on GitHub Pages. Send anything over 1 MB and the upload comes back 400 VALIDATION_ERROR. Worth trying: negative paths are the ones nobody covers."
       />
       <DifficultySelector />
 
       <WidgetSection
         title="Downloads"
-        description="Both links carry the download attribute and an attachment Content-Disposition, so the browser saves instead of navigating."
+        description="Both links carry the download attribute and an attachment Content-Disposition, so the browser saves the file instead of navigating to it."
         columns="md:grid-cols-2"
       >
         <DownloadCard
           fileName="products.csv"
           label="GET /api/files/products.csv"
-          description="CSV of the product catalog (header: id,name,price,category,stock) — generated from the same seed data in both modes."
+          description="The product catalog as CSV. Header row is id,name,price,category,stock, built from the same seed data in both modes."
         />
         <DownloadCard
           fileName="sample-report.pdf"
           label="GET /api/files/sample-report.pdf"
-          description="A minimal hand-built PDF (starts with the %PDF- magic bytes) — enough to assert a real binary download."
+          description="A hand-built PDF, tiny but valid. It starts with the %PDF- magic bytes, so you can assert on real binary content."
         />
       </WidgetSection>
 

@@ -8,18 +8,18 @@ import { useModeStore } from '@/stores/mode'
 
 /** The 12 implemented store features (normative list in docs/02-specs/ecommerce-spec.md). */
 const FEATURES = [
-  { emoji: '🗂️', title: 'Catalog', detail: 'Search, category filters, sorting and pagination — all mirrored in the URL.' },
-  { emoji: '🔍', title: 'Product detail', detail: 'Gallery block, quantity stepper clamped to stock, tabbed content.' },
-  { emoji: '⭐', title: 'Reviews & ratings', detail: 'Read reviews and post your own; the average updates instantly.' },
+  { emoji: '🗂️', title: 'Catalog', detail: 'Search, category filters, sort and pagination. All four live in the URL.' },
+  { emoji: '🔍', title: 'Product detail', detail: 'Quantity stepper clamped to stock, tabs, live rating.' },
+  { emoji: '⭐', title: 'Reviews & ratings', detail: 'Post a review and the average recalculates on the spot.' },
   { emoji: '💜', title: 'Wishlist', detail: 'Heart products while signed in, then move them to the cart.' },
-  { emoji: '🛒', title: 'Cart', detail: 'Quantity steppers, remove, and live totals with tax and shipping.' },
-  { emoji: '🎟️', title: 'Coupon codes', detail: 'Four seeded codes covering valid, minimum-spend, expired and disabled.' },
-  { emoji: '🔀', title: 'Guest & member carts', detail: 'Shop anonymously, then watch the guest cart merge on login.' },
-  { emoji: '🧾', title: '3-step checkout', detail: 'Shipping → Payment → Review wizard with per-field validation.' },
-  { emoji: '💳', title: 'Simulated payment', detail: 'Masked card input, approvals and deterministic declines.' },
-  { emoji: '📦', title: 'Order history', detail: 'Your past orders with status chips, totals and a detail timeline.' },
-  { emoji: '👤', title: 'Profile & address book', detail: 'Edit your name and manage addresses with a default flag.' },
-  { emoji: '📊', title: 'Admin dashboard', detail: 'Role-based area with stats, product CRUD and order status control.' },
+  { emoji: '🛒', title: 'Cart', detail: 'Steppers, remove, and totals that recalculate on every change.' },
+  { emoji: '🎟️', title: 'Coupon codes', detail: 'Four codes: one valid, one with a minimum, one expired, one disabled.' },
+  { emoji: '🔀', title: 'Guest & member carts', detail: 'Shop anonymously, log in, watch the guest cart merge.' },
+  { emoji: '🧾', title: '3-step checkout', detail: 'Shipping, payment, review. Each field validated on its own step.' },
+  { emoji: '💳', title: 'Simulated payment', detail: 'Card input masks itself. Approvals and declines are deterministic.' },
+  { emoji: '📦', title: 'Order history', detail: 'Past orders with status, totals and a per-order timeline.' },
+  { emoji: '👤', title: 'Profile & address book', detail: 'Rename yourself, add addresses, promote one to default.' },
+  { emoji: '📊', title: 'Admin dashboard', detail: 'Stats, product CRUD and order status control, behind a role check.' },
 ]
 
 const CREDENTIALS = [
@@ -33,8 +33,8 @@ const CARDS = [
 ]
 
 const COUPONS = [
-  { code: 'WELCOME10', outcome: '10% off — always valid', tone: 'success' as const },
-  { code: 'SAVE20', outcome: '$20 off — needs a $100+ subtotal', tone: 'warning' as const },
+  { code: 'WELCOME10', outcome: '10% off, always valid', tone: 'success' as const },
+  { code: 'SAVE20', outcome: '$20 off, needs a $100+ subtotal', tone: 'warning' as const },
   { code: 'EXPIRED50', outcome: 'Rejected: COUPON_EXPIRED', tone: 'danger' as const },
   { code: 'DISABLED5', outcome: 'Rejected: COUPON_INVALID (inactive)', tone: 'danger' as const },
 ]
@@ -49,7 +49,7 @@ export default function ShopIntroPage() {
 
   function handleReset() {
     const confirmed = window.confirm(
-      'Reset the demo data? Every account change, cart, order, review and wishlist created in this browser will be wiped and the original seed data restored.',
+      'Reset the demo data? Everything you created in this browser (carts, orders, reviews, wishlists, account edits) is deleted and the seed data comes back.',
     )
     if (!confirmed) return
     resetAll()
@@ -60,8 +60,8 @@ export default function ShopIntroPage() {
     <div className="space-y-10">
       <PageIntro
         title="TAW Store"
-        what="A complete, realistic ecommerce application — catalog, cart, coupons, checkout, orders, reviews, wishlist and an admin area — built purely as a target for end-to-end test automation."
-        how="Read this pre-screen first: it lists every implemented feature, the test accounts, the payment cards and the coupon codes you will need. Then use “Enter the store” to start shopping."
+        what="A working shop: catalog, cart, coupons, checkout, orders, reviews, wishlist and an admin area. It exists to be automated."
+        how="Skim this page first. It lists what is built, the test accounts, the card numbers and the coupon codes, so you can hard-code them in your suite. Then hit “Enter the store”."
       />
 
       <section
@@ -72,14 +72,12 @@ export default function ShopIntroPage() {
           🛒
         </span>
         <h2 id="store-hero-heading" className="font-display mt-4 max-w-2xl text-3xl font-bold leading-tight sm:text-4xl">
-          Everything a real shop has — <span className="text-gradient">nothing you cannot automate</span>
+          A real shop, <span className="text-gradient">no locator traps</span>
         </h2>
         <p className="mt-4 max-w-3xl text-sm leading-relaxed text-mist-300">
-          Every interactive element and every readout in the store carries a stable, kebab-case{' '}
-          <Code>data-testid</Code>. There are no artificial locator traps here — those live in the
-          Playground. The store is where you practise full journeys: browse, add to cart, apply a
-          coupon, register, check out, verify the order, then log in as an admin and watch the same
-          data from the other side.
+          Every control and every readout here carries a stable kebab-case <Code>data-testid</Code>.
+          The nasty selectors live in the Playground. This side is for whole journeys: buy something,
+          check out, then sign in as admin and watch the same order from the other side.
         </p>
         <div className="mt-6 flex flex-wrap items-center gap-3">
           <Link
@@ -104,7 +102,7 @@ export default function ShopIntroPage() {
           What is implemented
         </h2>
         <p className="mt-1 text-sm text-mist-400">
-          All twelve features below are fully working in both API modes — nothing is a mockup.
+          Twelve features, all of them wired to the API in both modes. None of it is a mockup.
         </p>
         <ul data-testid="feature-checklist" className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {FEATURES.map((feature) => (
@@ -152,21 +150,20 @@ export default function ShopIntroPage() {
 
         <div className="mt-5 grid gap-4 md:grid-cols-2">
           <div className="rounded-2xl border border-ink-700 bg-ink-900 p-4">
-            <h3 className="text-sm font-bold text-emerald-300">Backend mode — local only</h3>
+            <h3 className="text-sm font-bold text-emerald-300">Backend mode (local only)</h3>
             <p className="mt-2 text-sm leading-relaxed text-mist-300">
-              The UI performs real HTTP calls against the FastAPI server at{' '}
-              <Code>http://localhost:8000</Code>. This is the mode to use with Postman, RestAssured,
-              Karate or any HTTP client: the OpenAPI explorer lives at <Code>/docs</Code>. Data resets
-              when the server restarts.
+              Real HTTP calls to the FastAPI server at <Code>http://localhost:8000</Code>. Use this
+              one with Postman, RestAssured, Karate or curl. The OpenAPI explorer is at{' '}
+              <Code>/docs</Code>. Restarting the server wipes the data.
             </p>
           </div>
           <div className="rounded-2xl border border-ink-700 bg-ink-900 p-4">
-            <h3 className="text-sm font-bold text-pulse-300">Browser mode — this deployed site</h3>
+            <h3 className="text-sm font-bold text-pulse-300">Browser mode (this deployed site)</h3>
             <p className="mt-2 text-sm leading-relaxed text-mist-300">
-              Exactly the same REST API is served inside your browser by a service worker, with data
-              persisted in <Code>localStorage</Code>. The UI behaves identically, so UI automation
-              works anywhere — but <strong className="text-amber-200">network-level API testing
-              requires the local backend</strong>, because these requests never leave the tab.
+              A service worker serves the same REST API inside the tab and keeps the data in{' '}
+              <Code>localStorage</Code>. The UI behaves the same, so UI automation runs anywhere. But{' '}
+              <strong className="text-amber-200">network-level API testing needs the local backend</strong>:
+              these requests never leave the tab, so a proxy or an HTTP client sees nothing.
             </p>
           </div>
         </div>
@@ -174,8 +171,8 @@ export default function ShopIntroPage() {
         <div className="mt-4 flex flex-wrap items-center gap-3 rounded-2xl border border-ink-700 bg-ink-900 p-4">
           <p className="flex-1 text-sm leading-relaxed text-mist-300">
             {isBrowserMode
-              ? 'Your store data lives in this browser. Reset it whenever a test run leaves it dirty — seed products, users, reviews and coupons come back exactly as shipped.'
-              : 'Backend mode keeps its data in the FastAPI process. Restart the server to get a clean slate; the reset button only applies to browser mode.'}
+              ? 'Store data lives in this browser. When a test run leaves it dirty, reset it: products, users, reviews and coupons come back exactly as shipped.'
+              : 'Backend mode keeps its data in the FastAPI process. Restart the server for a clean slate. The reset button is browser mode only.'}
           </p>
           {isBrowserMode && (
             <Button variant="secondary" data-testid="reset-demo-data" onClick={handleReset}>
@@ -191,8 +188,8 @@ export default function ShopIntroPage() {
             Test data cheat sheet
           </h2>
           <p className="mt-1 text-sm text-mist-400">
-            The same accounts, cards and coupons exist in both modes — they come from the shared seed
-            files, so your assertions can hard-code them.
+            Both modes read the same seed files, so these values are identical either way. Hard-code
+            them.
           </p>
         </div>
 
@@ -217,7 +214,7 @@ export default function ShopIntroPage() {
               ))}
             </dl>
             <p className="mt-3 text-xs leading-relaxed text-mist-500">
-              You can also register a brand-new account — passwords need 8+ characters and a digit.
+              Registering your own works too. Passwords need 8+ characters and at least one digit.
             </p>
           </div>
 
@@ -236,7 +233,7 @@ export default function ShopIntroPage() {
               ))}
             </dl>
             <p className="mt-3 text-xs leading-relaxed text-mist-500">
-              Any future <Code>MM/YY</Code> expiry and a 3–4 digit CVC are accepted.
+              Any future <Code>MM/YY</Code> expiry passes. CVC is 3 or 4 digits.
             </p>
           </div>
 
@@ -255,7 +252,7 @@ export default function ShopIntroPage() {
               ))}
             </dl>
             <p className="mt-3 text-xs leading-relaxed text-mist-500">
-              Shipping is free from $50; below that it is a flat $4.99. Tax is 8% of the discounted
+              Shipping is free from $50, otherwise a flat $4.99. Tax is 8% of the discounted
               subtotal.
             </p>
           </div>

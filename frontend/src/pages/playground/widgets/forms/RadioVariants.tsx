@@ -27,7 +27,7 @@ export function RadioVariants({ native, fake, aria, onNative, onFake, onAria }: 
   return (
     <WidgetSection
       title="Radio group"
-      description="Pick a plan. Native radios in a fieldset get grouping, arrow keys and form semantics for free — the fake button group has none of that."
+      description="Pick a plan. Native radios in a fieldset get grouping, arrow-key navigation and form semantics for free. The button group below has none of it."
     >
       <VariantCard name="<fieldset> + native radios" verdict="recommended">
         <fieldset className="rounded-lg border border-ink-700 p-3">
@@ -77,7 +77,8 @@ export function RadioVariants({ native, fake, aria, onNative, onFake, onAria }: 
           ))}
         </div>
         <p className="text-xs text-mist-500">
-          Looks selected, but no radio semantics: screen readers and keyboards see unrelated buttons.
+          It looks selected. There are no radio semantics behind it, so a screen reader and a
+          keyboard user both see three unrelated buttons.
         </p>
         <Readout testId="forms-radio-fake-readout" label="Plan" value={fake || 'none'} />
       </VariantCard>

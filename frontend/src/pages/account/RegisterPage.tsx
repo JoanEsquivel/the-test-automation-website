@@ -78,8 +78,8 @@ export default function RegisterPage() {
     <div className="space-y-8">
       <PageIntro
         title="Create an account"
-        what="Registration for the store. The form enforces exactly the rules the API enforces: a valid email, a name, and a password of at least 8 characters containing a digit."
-        how="Fill the fields and submit. Registering an email that already exists (try customer@example.com) returns the EMAIL_TAKEN error in the banner — a reliable negative-path scenario."
+        what="Registration. The form enforces the same three rules the API does: a valid email, a name, and a password of 8+ characters with at least one digit."
+        how="Fill it in and submit. Register customer@example.com again and the banner shows EMAIL_TAKEN, which makes a reliable negative case that does not depend on test order."
       />
 
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,22rem)]">
@@ -121,7 +121,7 @@ export default function RegisterPage() {
             label="Password"
             type="password"
             autoComplete="new-password"
-            hint="At least 8 characters and at least one digit."
+            hint="8 characters minimum, at least one digit."
             value={password}
             onChange={setPassword}
             error={errors.password}
@@ -158,21 +158,21 @@ export default function RegisterPage() {
           <h2 className="font-display text-base font-bold">What happens on submit</h2>
           <ul className="mt-3 space-y-3 text-sm leading-relaxed text-mist-300">
             <li>
-              <strong className="text-mist-100">201 Created</strong> — a token and your user object come
-              back; the session is stored and any guest cart is merged into your account.
+              <strong className="text-mist-100">201 Created</strong>: a token and your user object come
+              back, the session is stored, and any guest cart merges into the new account.
             </li>
             <li>
-              <strong className="text-mist-100">400 VALIDATION_ERROR</strong> — the API rejects a weak
-              password or a malformed email, even if you bypass the client-side checks.
+              <strong className="text-mist-100">400 VALIDATION_ERROR</strong>: a weak password or a
+              malformed email. The API rejects both even if you skip the client-side checks.
             </li>
             <li>
-              <strong className="text-mist-100">409 EMAIL_TAKEN</strong> — the email already belongs to
-              an account.
+              <strong className="text-mist-100">409 EMAIL_TAKEN</strong>: that email already has an
+              account.
             </li>
           </ul>
           <p className="mt-4 text-xs text-mist-500">
-            New accounts always get the <code className="rounded bg-ink-800 px-1 py-0.5">customer</code>{' '}
-            role. Use the seeded admin account to reach the admin area.
+            Every new account gets the <code className="rounded bg-ink-800 px-1 py-0.5">customer</code>{' '}
+            role. There is no way to self-promote, so use the seeded admin account for /admin.
           </p>
         </aside>
       </div>

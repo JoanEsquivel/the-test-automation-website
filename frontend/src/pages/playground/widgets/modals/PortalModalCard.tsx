@@ -59,8 +59,8 @@ function PortalOverlay({ onClose }: PortalOverlayProps) {
       >
         <h3 className="font-display text-lg font-bold text-mist-50">Portal feedback</h3>
         <p className="mt-1 text-xs text-mist-400">
-          Rendered via createPortal at document.body with a manual focus trap — Tab cycles inside,
-          Escape dismisses.
+          Rendered through createPortal onto document.body, with a hand-written focus trap. Tab
+          cycles inside it, Escape closes it.
         </p>
         <label className="mt-3 flex flex-col gap-1 text-xs font-medium text-mist-400">
           Your feedback

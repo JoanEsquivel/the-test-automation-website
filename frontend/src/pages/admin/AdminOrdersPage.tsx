@@ -83,8 +83,8 @@ export default function AdminOrdersPage() {
     <div className="space-y-6">
       <PageIntro
         title="Admin · Orders"
-        what="Every order placed by every customer, with the status transition controls the storefront never exposes."
-        how="Filter by status, then move an order along the pending → paid → shipped → delivered graph. Only the legal next states are offered; the same rule is enforced by PATCH /api/admin/orders/:id/status, which answers 400 VALIDATION_ERROR for anything else."
+        what="Every order from every customer, plus the status controls the storefront never shows anyone."
+        how="Filter by status, then walk an order through pending → paid → shipped → delivered. Only legal next states appear as buttons, and PATCH /api/admin/orders/:id/status enforces the same graph: send anything else and it answers 400 VALIDATION_ERROR. Worth testing from both ends."
       />
       <AdminNav />
 

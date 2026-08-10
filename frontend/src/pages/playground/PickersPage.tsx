@@ -31,8 +31,8 @@ function NativeDateCard() {
         />
       </label>
       <p className="text-xs text-mist-500">
-        Automation tip: skip the browser popup — set the value directly (fill / sendKeys with
-        ISO yyyy-mm-dd) and let the change event fire.
+        Do not fight the browser popup. Set the value directly with fill() or sendKeys() using ISO
+        yyyy-mm-dd and let the change event fire.
       </p>
       <Readout testId="pickers-native-readout" label="Date" value={date || 'none'} />
     </VariantCard>
@@ -92,7 +92,8 @@ function LegacyDmyCard() {
         </label>
       </div>
       <p className="text-xs text-mist-500">
-        Three selects, zero validation: February 31st is selectable. Classic airline-site energy.
+        Three selects, zero validation. February 31st is selectable. You have booked a flight on
+        one of these.
       </p>
       <Readout testId="pickers-legacy-readout" label="Date" value={composed} />
     </VariantCard>
@@ -145,14 +146,14 @@ export default function PickersPage() {
     <div>
       <PageIntro
         title="Pickers"
-        what="Date selection three ways — native input, a custom ARIA calendar grid, and the legacy trio of D/M/Y selects — plus native color and datalist autocomplete."
-        how="Set a date in each variant and compare the effort: one fill() for the native input versus a click choreography for the calendar popup. Every card exposes a Date readout to assert."
+        what="Three ways to pick a date: the native input, a custom ARIA calendar grid, and the old trio of day/month/year selects. Plus the native color input and datalist autocomplete."
+        how="Set the same date in all three and compare what it cost you: one fill() against a whole choreography of clicks through the calendar popup. Every card has a Date readout."
       />
       <DifficultySelector />
 
       <WidgetSection
         title="Date picker"
-        description="The native input wins: keyboards, locales and validation for free. The calendar grid is what design systems ship; the triple select is what legacy code left behind."
+        description="The native input wins on keyboards, locales and validation, and you get all of it for free. The calendar grid is what design systems ship anyway. The triple select is what you inherit."
       >
         <NativeDateCard />
         <VariantCard name='Custom calendar popup (role="grid")' verdict="ariaCustom">
@@ -163,7 +164,7 @@ export default function PickersPage() {
 
       <WidgetSection
         title="Native extras"
-        description="Two more built-ins worth automating at least once: the color swatch popup and datalist autocomplete."
+        description="Two built-ins worth automating once so they never surprise you: the color swatch popup and datalist autocomplete."
         columns="md:grid-cols-2"
       >
         <NativeExtrasCard />

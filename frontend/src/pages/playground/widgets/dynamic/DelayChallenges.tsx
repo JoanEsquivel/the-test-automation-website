@@ -24,8 +24,8 @@ export function DelayedAppearance({ delayMs }: DelayProps) {
   return (
     <VariantCard name="1. Delayed appearance" verdict="challenge">
       <p className="text-xs text-mist-400">
-        Click the button — the target element joins the DOM only after the delay. Your script
-        must explicitly wait for it; it does not exist before that.
+        The target element does not join the DOM until the delay is up. It is not hidden, it is
+        not there. Your script has to wait for it.
       </p>
       <Button size="sm" onClick={spawn}>
         Spawn element
@@ -35,7 +35,7 @@ export function DelayedAppearance({ delayMs }: DelayProps) {
           data-testid="dynamic-appear-target"
           className="rounded-lg border border-emerald-500/40 bg-emerald-500/10 px-3 py-2 text-sm text-emerald-300"
         >
-          I appeared after the delay — assert me!
+          Here I am. Assert on me.
         </div>
       ) : null}
       <ChallengeReadout
@@ -44,10 +44,10 @@ export function DelayedAppearance({ delayMs }: DelayProps) {
         value={state === 'idle' ? 'idle' : state === 'waiting' ? 'waiting…' : 'element present'}
       />
       <AutomationNote>
-        Wait for the element itself, not for time: Playwright&apos;s{' '}
-        <code>expect(locator).toBeVisible()</code> or Selenium&apos;s{' '}
-        <code>ExpectedConditions.visibilityOfElementLocated</code>. Hard sleeps break as soon as
-        someone moves the slider.
+        Wait for the element, not for a duration. Playwright:{' '}
+        <code>expect(locator).toBeVisible()</code>. Selenium:{' '}
+        <code>ExpectedConditions.visibilityOfElementLocated</code>. A hard sleep survives exactly
+        until someone drags the slider.
       </AutomationNote>
     </VariantCard>
   )
@@ -95,12 +95,13 @@ export function DelayedEnable({ delayMs }: DelayProps) {
       <ChallengeReadout
         testId="dynamic-enable-status"
         label="Status"
-        value={clicked ? 'clicked while enabled!' : enabled ? 'enabled' : 'disabled — waiting'}
+        value={clicked ? 'clicked while enabled!' : enabled ? 'enabled' : 'disabled, waiting'}
       />
       <AutomationNote>
-        Wait for enabled state, not presence: <code>expect(locator).toBeEnabled()</code> in
-        Playwright, <code>elementToBeClickable</code> in Selenium. Clicking a disabled control
-        silently does nothing.
+        Wait for the enabled state, not for presence. Playwright:{' '}
+        <code>expect(locator).toBeEnabled()</code>. Selenium: <code>elementToBeClickable</code>.
+        Clicking a disabled control throws no error and does nothing, which is the worst
+        combination for debugging.
       </AutomationNote>
     </VariantCard>
   )
@@ -142,13 +143,13 @@ export function SpinnerThenContent({ delayMs }: DelayProps) {
           data-testid="dynamic-loaded-card"
           className="rounded-lg border border-volt-500/40 bg-volt-500/10 px-3 py-2 text-sm text-volt-300"
         >
-          Content loaded — the spinner is gone and this card is here to stay.
+          Loaded. The spinner is gone and this card stays.
         </div>
       ) : null}
       <ChallengeReadout testId="dynamic-spinner-status" label="Status" value={state} />
       <AutomationNote>
-        Assert the OUTCOME (the loaded card), not the spinner. Waiting for spinners to vanish is
-        flaky when they are too fast to ever be observed.
+        Assert the loaded card, not the spinner. Waiting for a spinner to disappear breaks the day
+        the response gets fast enough that the spinner never renders.
       </AutomationNote>
     </VariantCard>
   )
@@ -170,8 +171,8 @@ export function TextSwap({ delayMs }: DelayProps) {
   return (
     <VariantCard name="8. Text swap (same node)" verdict="challenge">
       <p className="text-xs text-mist-400">
-        The paragraph below never leaves the DOM — only its TEXT changes. A held element
-        reference stays valid; you wait for the text, not for a new element.
+        The paragraph below never leaves the DOM. Only its TEXT changes, so a held element
+        reference stays perfectly valid. Wait for the text, not for a new element.
       </p>
       <p
         data-testid="dynamic-text-swap"

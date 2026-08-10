@@ -11,14 +11,14 @@ export default function InteractionsPage() {
     <div>
       <PageIntro
         title="Interaction challenges"
-        what="Seven gesture challenges: HTML5 drag & drop, a pointer-event sortable, native and ARIA sliders, a canvas pad, a hover-only menu, a right-click context menu, and keyboard/double-click/long-press widgets."
-        how="Every widget mirrors its outcome to a readout with a stable data-testid at all difficulty levels — drive the gesture with your tool's action APIs, then assert the readout. If a gesture works by hand but not in your script, you are probably skipping the intermediate events."
+        what="Seven gesture challenges: HTML5 drag & drop, a pointer-event sortable, native and ARIA sliders, a canvas pad, a hover-only menu, a right-click menu, and widgets that only answer to the keyboard, a double-click or a long press."
+        how="Drive each gesture with your tool's action API, then assert the readout. Every readout keeps its data-testid at all difficulty levels, so the gesture is the challenge, not the locator. If something works when you do it by hand but not from a script, you are almost certainly firing the start and end events without the moves in between."
       />
       <DifficultySelector />
 
       <WidgetSection
         title="Drag & drop"
-        description="Two different technologies that look identical to users: HTML5 dnd events vs raw pointer events. They need different automation approaches."
+        description="These look identical to a user and behave nothing alike to a driver: one runs on HTML5 dnd events, the other on raw pointer events. dragTo() handles one of them."
         columns="md:grid-cols-2"
       >
         <Html5DragDrop />
@@ -27,7 +27,7 @@ export default function InteractionsPage() {
 
       <WidgetSection
         title="Sliders & canvas"
-        description="Continuous controls: two slider implementations and a canvas with no DOM inside."
+        description="Continuous controls: two slider implementations, and a canvas with no DOM inside it to locate."
         columns="md:grid-cols-2"
       >
         <Sliders />
@@ -36,7 +36,7 @@ export default function InteractionsPage() {
 
       <WidgetSection
         title="Menus"
-        description="Menus that require the pointer to behave like a real one: pure-CSS hover reveal and a right-click context menu."
+        description="Menus that need the pointer to behave like a real one: a pure-CSS hover reveal and a right-click context menu."
         columns="md:grid-cols-2"
       >
         <HoverMenu />
@@ -45,7 +45,7 @@ export default function InteractionsPage() {
 
       <WidgetSection
         title="Keyboard & timing"
-        description="Input modality challenges: a mouse-proof listbox, a double-click cell and a press-and-hold button."
+        description="A listbox the mouse cannot operate, a cell that needs a double-click, and a button you have to hold down."
         columns="md:grid-cols-2"
       >
         <KeyboardOnlyListbox />

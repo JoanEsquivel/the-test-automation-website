@@ -2,7 +2,7 @@
   "name": "the-test-automation-website",
   "version": "1.0.0",
   "private": true,
-  "description": "The definitive practice app for web & API test automation",
+  "description": "A practice app for web and API test automation: a components playground and a working store, in two API modes",
   "workspaces": [
     "frontend",
     "e2e"

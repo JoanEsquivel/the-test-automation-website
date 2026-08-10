@@ -99,7 +99,7 @@ export function OrderStatusTimeline({ status }: { status: OrderStatus }) {
           aria-current="step"
           className="rounded-xl border border-red-500/40 bg-red-500/10 px-4 py-3 text-sm text-red-200"
         >
-          This order was cancelled — it will not ship, and the remaining steps never run.
+          This order was cancelled. It will not ship and the remaining steps never run.
         </p>
       )}
     </section>

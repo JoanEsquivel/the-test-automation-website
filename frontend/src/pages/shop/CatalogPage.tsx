@@ -143,8 +143,8 @@ export default function CatalogPage() {
     <div className="space-y-8">
       <PageIntro
         title="Catalog"
-        what="The storefront: 24 seeded products you can search, filter by category, sort and page through. Every card exposes its price, rating, stock state and an add-to-cart button."
-        how="Type in the search box (it debounces for 300 ms), pick a category chip, change the sort order or page. All four live in the URL — copy it to build deep-linked, repeatable tests."
+        what="24 seeded products you can search, filter, sort and page through. Each card shows price, rating and stock, and adds to the cart without leaving the page."
+        how="Type in the search box and note the 300 ms debounce, which is where naive scripts assert too early. Pick a category, change the sort, jump a page. All four end up in the URL, so you can deep-link straight to any state your test needs."
       />
 
       <CatalogFilters

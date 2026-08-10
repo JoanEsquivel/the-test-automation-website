@@ -13,7 +13,7 @@ import { Readout, VariantCard, WidgetSection } from '@/pages/playground/widgets/
 
 const TARGET_PANELS = [
   { id: 'nav-target-basics', label: 'Basics', text: 'Panels toggle purely via the URL hash and the CSS :target selector.' },
-  { id: 'nav-target-caveats', label: 'Caveats', text: 'No aria-selected, no keyboard pattern, and the hash pollutes your history stack.' },
+  { id: 'nav-target-caveats', label: 'Caveats', text: 'No aria-selected, no keyboard support, and every click adds an entry to the history stack.' },
 ]
 
 function TargetTabsCard() {
@@ -40,8 +40,8 @@ function TargetTabsCard() {
         </div>
       ))}
       <p className="text-xs text-mist-500">
-        Click a link and the panel appears via CSS :target — state lives in the URL, invisible to
-        role-based queries.
+        The panel appears through CSS :target, so the state is in the URL and nowhere in the
+        accessibility tree. Role-based queries cannot see it.
       </p>
     </VariantCard>
   )
@@ -115,7 +115,7 @@ function WayfindingCard() {
       </nav>
       <Readout testId="navigation-pagination-readout" label="Current page" value={String(page)} />
       <div {...withClass(attrs('navigation-wayfinding-note', { className: 'wayfinding-note' }), 'text-xs text-mist-500')}>
-        aria-current="page" marks where you are — in both widgets. Assert it instead of CSS classes.
+        Both widgets mark the current spot with aria-current="page". Assert that, not the class.
       </div>
     </VariantCard>
   )
@@ -126,14 +126,14 @@ export default function NavigationPage() {
     <div>
       <PageIntro
         title="Navigation"
-        what="Tabs, accordions, breadcrumbs and pagination — the widgets that move users around, in accessible and less-accessible flavors."
-        how="Drive the ARIA tabs with clicks and arrow keys, open both accordions, and page through the pagination widget. Selection state is always in ARIA attributes on the recommended variants — assert those."
+        what="Tabs, accordions, breadcrumbs and pagination: the widgets that move people around a page, built properly and built badly."
+        how="Drive the ARIA tabs with clicks and then with arrow keys, open both accordions, and page through the pagination. On the recommended variants the state is in the ARIA attributes: assert aria-selected, aria-expanded and aria-current instead of CSS classes."
       />
       <DifficultySelector />
 
       <WidgetSection
         title="Tabs"
-        description="The ARIA pattern gives you role=tab, aria-selected and arrow keys. The :target hack gives you a URL and a prayer."
+        description="The ARIA pattern gives you role=tab, aria-selected and arrow-key support. The :target hack gives you a URL fragment and nothing else."
         columns="md:grid-cols-2"
       >
         <VariantCard name="ARIA tabs pattern" verdict="recommended">
@@ -144,7 +144,7 @@ export default function NavigationPage() {
 
       <WidgetSection
         title="Accordion"
-        description="Native details, an ARIA disclosure and a jQuery-era slide — same feature, three very different DOMs."
+        description="Native details, an ARIA disclosure, and a jQuery-era slide. Same feature, three completely different DOMs to locate against."
       >
         <DetailsAccordion />
         <DisclosureAccordion />

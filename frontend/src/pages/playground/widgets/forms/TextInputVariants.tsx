@@ -35,7 +35,7 @@ export function TextInputVariants({ values, onChange }: TextInputVariantsProps) 
   return (
     <WidgetSection
       title="Text inputs"
-      description="Labeled inputs are the modern baseline. Placeholder-only fields lose their hint the moment you type; contenteditable divs are not inputs at all."
+      description="A labeled input is the baseline. A placeholder-only field throws away its hint the moment you type in it, and a contenteditable div is not an input at all."
     >
       <VariantCard name="Labeled inputs (email · password · number · masked)" verdict="recommended">
         <label className="flex flex-col gap-1 text-xs font-medium text-mist-400">
@@ -108,7 +108,7 @@ export function TextInputVariants({ values, onChange }: TextInputVariantsProps) 
           {...withClass(attrs('forms-input-nickname', { className: 'input-nickname' }), inputClass)}
         />
         <p className="text-xs text-mist-500">
-          No accessible name — getByLabelText fails here. That is the lesson.
+          No accessible name, so getByLabelText finds nothing. That is the lesson.
         </p>
         <Readout testId="forms-input-nickname-readout" label="Nickname" value={values.nickname || '—'} />
       </VariantCard>
@@ -125,8 +125,8 @@ export function TextInputVariants({ values, onChange }: TextInputVariantsProps) 
           )}
         />
         <p className="text-xs text-mist-500">
-          Not a form control: no value property, no change events, custom caret handling. fill() and
-          type() behave differently here in every automation tool.
+          This is not a form control. No value property, no change events, hand-rolled caret
+          handling. fill() and type() behave differently on it in every tool you try.
         </p>
         <Readout testId="forms-input-bio-readout" label="Bio" value={values.bio || '—'} />
       </VariantCard>

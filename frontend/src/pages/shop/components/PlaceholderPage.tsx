@@ -10,9 +10,8 @@ export function PlaceholderPage({ title, what, how }: { title: string; what: str
     <div className="space-y-6">
       <PageIntro title={title} what={what} how={how} />
       <Banner tone="info" data-testid="coming-soon">
-        This page is being built right now and lands in the next batch of the ecommerce phase.
-        Everything it depends on — the API, the cart engine and the shared store components — is
-        already in place.
+        This page lands in the next batch of the ecommerce phase. The API, the cart engine and the
+        shared store components it needs are already done.
       </Banner>
       <p>
         <Link to="/shop/catalog" className="text-sm font-medium text-volt-400 hover:underline">

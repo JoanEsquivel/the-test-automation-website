@@ -39,8 +39,8 @@ export default function OrdersPage() {
     <div className="space-y-8">
       <PageIntro
         title="Order history"
-        what="Every order placed by the signed-in account, newest first — order number, date, status and total, straight from GET /api/orders."
-        how="Open any row to see the full snapshot: items, shipping address, card last4, totals and the status timeline. New accounts start with an empty history."
+        what="Every order on the signed-in account, newest first: number, date, status and total, straight from GET /api/orders."
+        how="Open a row for the full snapshot: items, shipping address, card last4, totals, status timeline. A fresh account starts empty, which is the state most suites forget to cover."
       />
 
       {error && (
@@ -61,7 +61,7 @@ export default function OrdersPage() {
           </p>
           <h2 className="font-display mt-3 text-lg font-bold">No orders yet</h2>
           <p className="mt-1 text-sm text-mist-400">
-            Place one from the cart and it will appear here the moment the API confirms it.
+            Place one from the cart and it appears here as soon as the API confirms it.
           </p>
           <Link
             to="/shop/catalog"

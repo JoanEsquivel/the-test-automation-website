@@ -48,8 +48,8 @@ export default function PlaygroundHubPage() {
     <div>
       <PageIntro
         title="Components Playground"
-        what="A catalog of UI elements in multiple implementation variants, plus deliberate automation challenges: waits, iframes, shadow DOM, windows, files and tricky interactions."
-        how='Pick a category below. Each page includes a locator difficulty selector (easy / medium / evil) and marks the recommended modern implementation of every widget with a green "Recommended" badge. Challenge categories carry an expandable automation cheat-sheet mapping tool APIs to the challenge.'
+        what="The same UI element built several ways, so you can see which implementations your locators survive. Plus the classic script-breakers: waits, iframes, shadow DOM, extra windows, file dialogs, gestures."
+        how='Pick a category. Each page has a difficulty selector: easy keeps the data-testid attributes, medium removes them, evil randomises ids and classes on every mount. The variant worth copying in real code wears a green "Recommended" badge. Challenge categories open a cheat-sheet with the Playwright and Selenium calls that handle them.'
       />
       <section aria-label="Playground categories" className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {PLAYGROUND_CATEGORIES.map((category) => (

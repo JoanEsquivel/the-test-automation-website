@@ -130,8 +130,8 @@ export default function ProductDetailPage() {
     <div className="space-y-8">
       <PageIntro
         title="Product detail"
-        what="Everything about a single product: price, live stock, average rating, a quantity stepper clamped to the available stock, wishlist control and tabbed description / reviews."
-        how="Pick a quantity and add it to the cart, switch tabs with the mouse or the keyboard, and — while logged in — publish a review and watch the average rating update immediately."
+        what="One product: price, live stock, average rating, a quantity stepper clamped to stock, the wishlist heart, and tabs for the description and reviews."
+        how="Pick a quantity and add it to the cart. Switch tabs with the mouse, then again with arrow keys. Log in and post a review: the average rating recalculates right away, so you have a number to assert before and after."
       />
 
       <p>
@@ -149,8 +149,8 @@ export default function ProductDetailPage() {
           </p>
           <h2 className="font-display mt-3 text-xl font-bold">We could not find that product</h2>
           <p className="mt-2 text-sm text-mist-400">
-            The id <code className="rounded bg-ink-800 px-1.5 py-0.5 text-volt-300">{productId}</code> does not exist in
-            the catalog. It may have been deleted from the admin area.
+            No product with the id <code className="rounded bg-ink-800 px-1.5 py-0.5 text-volt-300">{productId}</code>.
+            Someone may have deleted it from the admin area.
           </p>
           <Link
             to="/shop/catalog"
@@ -219,7 +219,7 @@ export default function ProductDetailPage() {
               </div>
 
               <p className="mt-4 text-xs text-mist-500">
-                Quantities are clamped between 1 and {Math.max(maxQty, 1)} — the same rule the API enforces.
+                Quantity is clamped between 1 and {Math.max(maxQty, 1)}, the same rule the API enforces.
               </p>
             </div>
           </section>

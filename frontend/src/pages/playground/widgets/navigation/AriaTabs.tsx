@@ -5,19 +5,19 @@ const TABS = [
     id: 'playwright',
     label: 'Playwright',
     content:
-      'Playwright ships its own tabs helper: getByRole("tab") plus toHaveAttribute("aria-selected") make this pattern trivial to assert.',
+      'Playwright handles this with getByRole("tab") and toHaveAttribute("aria-selected"). Nothing custom required.',
   },
   {
     id: 'selenium',
     label: 'Selenium',
     content:
-      'Selenium reaches these tabs with By.cssSelector("[role=tab]") and keyboard actions — arrow keys move selection because the tabs implement roving tabindex.',
+      'Selenium reaches these tabs with By.cssSelector("[role=tab]") plus keyboard actions. Arrow keys move the selection because the tabs implement roving tabindex.',
   },
   {
     id: 'cypress',
     label: 'Cypress',
     content:
-      'Cypress can cy.get("[role=tab]").type("{rightarrow}") — the ARIA pattern means selection follows focus without extra clicks.',
+      'Cypress does it with cy.get("[role=tab]").type("{rightarrow}"). Selection follows focus in this pattern, so no extra clicks.',
   },
 ]
 

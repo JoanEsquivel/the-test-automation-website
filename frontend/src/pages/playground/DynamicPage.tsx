@@ -48,8 +48,8 @@ function DelayControl({ delayMs, onChange }: { delayMs: number; onChange: (value
         </output>
       </div>
       <p className="mt-2 text-xs text-mist-500">
-        Every challenge below uses this delay ({DELAY_MIN}–{DELAY_MAX} ms). Crank it up to expose
-        scripts that rely on hard-coded sleeps.
+        Every challenge below uses this delay ({DELAY_MIN}–{DELAY_MAX} ms). Push it to the top and
+        any hard-coded sleep in your suite will show itself.
       </p>
     </section>
   )
@@ -62,15 +62,15 @@ export default function DynamicPage() {
     <div>
       <PageIntro
         title="Dynamic & async challenges"
-        what="Eight timing challenges: delayed appearance and enabling, spinners, a stale-element trap, auto-dismissing toasts, infinite scroll, a progress bar and an in-place text swap."
-        how="Set the shared delay slider, then trigger each challenge and make your script wait for the OBSERVABLE outcome (each card has a readout with a stable data-testid at every difficulty level). If your test only passes at 500 ms, it is not waiting — it is gambling."
+        what="Eight timing challenges: delayed appearance, delayed enabling, spinners, a stale-element trap, toasts that dismiss themselves, infinite scroll, a progress bar, and text that changes in place."
+        how="Set the shared delay, trigger a challenge, and wait for the OBSERVABLE outcome rather than a duration. Every card keeps a readout with a stable data-testid at all difficulty levels, so there is always something real to wait for. If your test passes at 500 ms and fails at 8000 ms, it is not waiting. It is guessing."
       />
       <DifficultySelector />
       <DelayControl delayMs={delayMs} onChange={setDelayMs} />
 
       <WidgetSection
         title="Waiting for elements"
-        description="Appearance, enablement, spinner replacement and in-place text changes — the four canonical explicit-wait targets."
+        description="The four things explicit waits were invented for: an element appearing, a button becoming enabled, a spinner being replaced, and text changing without the node moving."
         columns="md:grid-cols-2"
       >
         <DelayedAppearance delayMs={delayMs} />
@@ -81,7 +81,7 @@ export default function DynamicPage() {
 
       <WidgetSection
         title="Re-renders & notifications"
-        description="DOM nodes that are replaced under your feet, and messages that will not wait for you."
+        description="Nodes that get replaced while you hold a reference to them, and messages that vanish before your assertion arrives."
         columns="md:grid-cols-2"
       >
         <StaleElementTrap />
@@ -90,7 +90,7 @@ export default function DynamicPage() {
 
       <WidgetSection
         title="Streams & progress"
-        description="Content that keeps arriving, and work that takes visible time."
+        description="Content that keeps arriving as you scroll, and work that takes visible time to finish."
         columns="md:grid-cols-2"
       >
         <InfiniteScrollFeed />

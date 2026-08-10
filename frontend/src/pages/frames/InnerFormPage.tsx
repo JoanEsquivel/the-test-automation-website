@@ -19,8 +19,8 @@ export default function InnerFormPage() {
     <div data-testid="frame-inner-form">
       <h1 className="font-display text-lg font-bold text-mist-50">Inner form (inside the iframe)</h1>
       <p className="mt-1 text-xs text-mist-400">
-        This whole document lives inside an iframe. Submit — the result renders HERE, inside the
-        frame, so your script must stay switched into it to assert.
+        This whole document lives inside an iframe. Submit the form and the result renders HERE,
+        inside the frame, so your script has to stay switched in to assert on it.
       </p>
       <form onSubmit={submit} className="mt-4 flex max-w-sm flex-col gap-3">
         <label className="flex flex-col gap-1 text-xs font-medium text-mist-400">

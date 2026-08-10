@@ -26,9 +26,9 @@ export function KeyboardOnlyListbox() {
   return (
     <VariantCard name="7a. Keyboard-only listbox" verdict="challenge">
       <p className="text-xs text-mist-400">
-        This listbox deliberately swallows every mouse event (preventDefault, no click
-        handlers) — some real widgets behave this way, and keyboard-driving is also how you
-        verify accessibility. Focus it, use ↑/↓, press Enter.
+        This listbox swallows every mouse event on purpose: preventDefault, no click handlers.
+        Plenty of real widgets behave this way, and driving by keyboard is how you check the
+        accessible version works at all. Focus it, use ↑/↓, press Enter.
       </p>
       {/* oxlint-disable-next-line no-noninteractive-element-to-interactive-role -- canonical WAI-ARIA listbox markup: ul[role=listbox] with li[role=option] */}
       <ul role="listbox"
@@ -60,9 +60,10 @@ export function KeyboardOnlyListbox() {
       </ul>
       <ChallengeReadout testId="interactions-keyboard-readout" label="Selected" value={selected} />
       <AutomationNote>
-        Click-based scripts get NOTHING here. Focus the listbox (<code>locator.focus()</code>),
-        then <code>keyboard.press(&apos;ArrowDown&apos;)</code> / <code>Enter</code> — Selenium:{' '}
-        <code>sendKeys(Keys.ARROW_DOWN, Keys.ENTER)</code> on the focused element.
+        A click-based script gets NOTHING here. Focus the listbox with{' '}
+        <code>locator.focus()</code>, then <code>keyboard.press(&apos;ArrowDown&apos;)</code> and{' '}
+        <code>Enter</code>. In Selenium, <code>sendKeys(Keys.ARROW_DOWN, Keys.ENTER)</code> on the
+        focused element.
       </AutomationNote>
     </VariantCard>
   )
@@ -142,9 +143,9 @@ export function ClickTimingChallenges() {
         }
       />
       <AutomationNote>
-        <code>locator.dblclick()</code> covers the cell. For the hold: <code>mouse.down()</code>,
-        wait ≥ {HOLD_MS} ms, <code>mouse.up()</code> — or Selenium&apos;s{' '}
-        <code>Actions.clickAndHold().pause(Duration.ofMillis(900)).release()</code>.
+        <code>locator.dblclick()</code> handles the cell. The hold needs three steps:{' '}
+        <code>mouse.down()</code>, wait at least {HOLD_MS} ms, <code>mouse.up()</code>. Selenium
+        spells it <code>Actions.clickAndHold().pause(Duration.ofMillis(900)).release()</code>.
       </AutomationNote>
     </VariantCard>
   )

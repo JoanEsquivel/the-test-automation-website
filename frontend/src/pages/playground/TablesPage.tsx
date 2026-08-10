@@ -39,14 +39,14 @@ export default function TablesPage() {
     <div>
       <PageIntro
         title="Tables"
-        what="The 24 seed products in a real, sortable, paginated table — next to a div-grid impostor and a spreadsheet-style editable table."
-        how="Click the Product or Price headers to sort (watch aria-sort), page through with Prev/Next, then double-click a Stock cell in the editable table and commit with Enter. Assert against the first row and the Last edit readout."
+        what="The 24 seed products in a real sortable, paginated table, next to a div-grid impostor and a table with cells you can edit."
+        how="Sort by clicking the Product or Price header and watch aria-sort flip on the header cell. Page through with Prev/Next. In the editable table, double-click a Stock cell and commit with Enter. Assert on the first row and on the Last edit readout."
       />
       <DifficultySelector />
 
       <WidgetSection
         title="Table"
-        description="getByRole('table') and row/cell queries only work on the semantic one. The div grid forces you into CSS-class archaeology — that is its lesson."
+        description="getByRole('table') and row and cell queries only work against the semantic one. The div grid leaves you doing CSS-class archaeology, which is the whole point of it being here."
         columns="lg:grid-cols-2"
       >
         <VariantCard
@@ -59,8 +59,8 @@ export default function TablesPage() {
         <VariantCard name="Div-grid fake table" verdict="antiPattern">
           <FakeGridTable />
           <p className="text-xs text-mist-500">
-            No rows, no cells, no headers as far as the accessibility tree is concerned. Screen
-            readers and role-based locators see a pile of generic boxes.
+            No rows, no cells, no headers as far as the accessibility tree is concerned. A screen
+            reader and a role-based locator both see a pile of generic boxes.
           </p>
         </VariantCard>
         <VariantCard name="Editable cells (double-click)" verdict="advanced">

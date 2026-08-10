@@ -22,7 +22,7 @@ const SEED_USERS = [
     tone: 'volt' as const,
     email: 'customer@example.com',
     password: 'Password123!',
-    blurb: 'Shops, checks out and reviews products.',
+    blurb: 'Shops, checks out, leaves reviews.',
   },
   {
     testId: 'fill-admin',
@@ -30,7 +30,7 @@ const SEED_USERS = [
     tone: 'pulse' as const,
     email: 'admin@example.com',
     password: 'Admin123!',
-    blurb: 'Everything above plus the /admin dashboard.',
+    blurb: 'The same, plus the /admin dashboard.',
   },
 ]
 
@@ -87,8 +87,8 @@ export default function LoginPage() {
     <div className="space-y-8">
       <PageIntro
         title="Log in"
-        what="The store's authentication screen. It validates your input the same way the API does, then stores the session token used by every subsequent request."
-        how="Use one of the seed accounts on the right (the “Use this account” buttons fill the form for you) or your own registered account. A ?returnTo= parameter in the URL is honored after a successful login."
+        what="The login screen. It validates exactly what the API validates, then stores the token every later request carries."
+        how="Use a seed account from the panel on the right; the buttons fill the form for you. Or log in with one you registered. If the URL carries ?returnTo=, you land there after signing in, which is how the cart and admin redirects work."
       />
 
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,22rem)]">
@@ -146,7 +146,7 @@ export default function LoginPage() {
         <aside data-testid="seed-credentials" className="rounded-2xl border border-ink-700 bg-ink-900 p-6">
           <h2 className="font-display text-base font-bold">Seed accounts</h2>
           <p className="mt-1 text-xs leading-relaxed text-mist-400">
-            These exist in both API modes and are restored by “Reset demo data”.
+            Both API modes have these. “Reset demo data” brings them back if you break them.
           </p>
           <ul className="mt-4 space-y-4">
             {SEED_USERS.map((user) => (

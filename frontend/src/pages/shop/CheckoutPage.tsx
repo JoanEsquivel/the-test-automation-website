@@ -137,8 +137,8 @@ export default function CheckoutPage() {
     <div className="space-y-8">
       <PageIntro
         title="Checkout"
-        what="A three-step wizard — shipping, payment, review — over the same order API a real store would use. The payment is simulated: 4111 1111 1111 1111 is approved, any card ending in 0000 is declined."
-        how="Pick a saved address or add a new one, type card details (they mask themselves as you type), then review the summary and place the order. Errors come straight from the API and drop you back on the step that can fix them."
+        what="A three-step wizard: shipping, payment, review. The payment is simulated but deterministic. 4111 1111 1111 1111 is approved; any card ending in 0000 is declined."
+        how="Pick a saved address or add one, enter the card (it masks itself as you type), then place the order from the review step. Errors come from the API and send you back to the step that can fix them, so the failure path is worth automating too."
       />
 
       <CheckoutStepper current={step} onNavigate={setStep} />
@@ -158,7 +158,7 @@ export default function CheckoutPage() {
             🧾
           </p>
           <h2 className="font-display mt-3 text-lg font-bold">There is nothing to check out</h2>
-          <p className="mt-1 text-sm text-mist-400">Your cart is empty, so the order API would answer EMPTY_CART.</p>
+          <p className="mt-1 text-sm text-mist-400">The cart is empty. Post this order anyway and the API answers EMPTY_CART.</p>
           <Link
             to="/shop/catalog"
             data-testid="checkout-catalog-link"

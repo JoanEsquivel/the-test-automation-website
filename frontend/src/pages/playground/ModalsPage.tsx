@@ -27,8 +27,9 @@ function LegacyInlineModal() {
       >
         <h3 className="font-display text-sm font-bold">Legacy inline "modal"</h3>
         <p className="mt-1 text-xs text-mist-400">
-          I was always in the DOM — your visibility assertions better check computed styles. Focus
-          stayed on the trigger, Escape does nothing, and the page behind me still scrolls.
+          I was in the DOM the whole time, so an assertion on presence would have passed before you
+          clicked. Check computed styles instead. Focus never left the trigger, Escape does nothing,
+          and the page behind me still scrolls.
         </p>
         <Button variant="ghost" size="sm" className="mt-2" onClick={() => setOpen(false)}>
           Close
@@ -59,12 +60,10 @@ function TooltipCards() {
           id="modals-tips-popover"
           className="rounded-xl border border-ink-600 bg-ink-800 p-4 text-sm text-mist-200"
         >
-          Declarative top-layer popover: light dismiss and Escape handling come from the browser,
-          no JavaScript required.
+          Top layer, light dismiss and Escape all come from the browser. No JavaScript here.
         </div>
         <p className="text-xs text-mist-500">
-          Native top layer + light dismiss. (Not implemented by jsdom — exercise this one in a real
-          browser.)
+          jsdom does not implement it, so run this one in a real browser.
         </p>
       </VariantCard>
 
@@ -80,8 +79,8 @@ function TooltipCards() {
           Hover me (title attribute)
         </button>
         <p className="text-xs text-mist-500">
-          Browser-native but invisible to automation screenshots and unreachable on touch. Assert
-          the attribute, not the bubble.
+          The bubble is drawn by the browser, not the page, so it never lands in a screenshot and
+          never appears on touch. Assert the attribute, not the bubble.
         </p>
       </VariantCard>
 
@@ -96,7 +95,7 @@ function TooltipCards() {
             Hover me (CSS div)
           </span>
           <span className="pointer-events-none absolute bottom-full left-1/2 z-10 mb-2 hidden w-48 -translate-x-1/2 rounded-lg border border-ink-600 bg-ink-800 p-2 text-xs text-mist-200 group-hover:block">
-            Pure CSS :hover tooltip — you need a real pointer hover action to ever see me.
+            Pure CSS :hover. Nothing but a real pointer hover will show me.
           </span>
         </span>
         <p className="text-xs text-mist-500">No role, no aria-describedby, gone on touch. </p>
@@ -110,14 +109,14 @@ export default function ModalsPage() {
     <div>
       <PageIntro
         title="Modals & popovers"
-        what="Three modal implementations — native dialog, portal overlay with focus trap, and a display:none relic — plus three flavors of tooltip."
-        how="Open each modal, complete or dismiss it, and assert the Result readout. Try Escape and Tab in the portal modal to feel the focus trap. The native dialog uses showModal() in real browsers and a graceful fallback where it is missing."
+        what="Three modal implementations (native dialog, portal overlay with a focus trap, and a display:none relic) plus three kinds of tooltip."
+        how="Open each modal, confirm or dismiss it, and assert the Result readout. Press Escape and hold Tab in the portal modal to feel the focus trap. The native dialog calls showModal() in a real browser and falls back where that is missing, jsdom included."
       />
       <DifficultySelector />
 
       <WidgetSection
         title="Modal"
-        description="A real modal owns focus and the top layer. Only one of these three does it natively."
+        description="A real modal takes focus and sits in the top layer. Only one of these three does that without JavaScript."
       >
         <VariantCard name="<dialog showModal>" verdict="recommended">
           <NativeDialogCard />
@@ -132,7 +131,7 @@ export default function ModalsPage() {
 
       <WidgetSection
         title="Tooltip / popover"
-        description="From the brand-new popover attribute to the title attribute your grandparents used."
+        description="From the popover attribute browsers only recently shipped to the title attribute we have had since 1997."
       >
         <TooltipCards />
       </WidgetSection>

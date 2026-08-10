@@ -107,8 +107,8 @@ export default function AdminProductsPage() {
     <div className="space-y-6">
       <PageIntro
         title="Admin · Products"
-        what="The full product catalog behind the admin role, including out-of-stock items that customers cannot see listed."
-        how="Search, page through the table, then create, edit or delete products. Every change hits the same /api/admin/products endpoints your API tests can call directly, and shows up in the storefront immediately."
+        what="The whole catalog, admin only, including the out-of-stock items customers never see listed."
+        how="Search, page through, then create, edit or delete. Every change goes through the same /api/admin/products endpoints your API tests can hit directly, and the storefront reflects it on the next load."
       />
       <AdminNav />
 
@@ -251,7 +251,7 @@ export default function AdminProductsPage() {
       {pendingDelete && (
         <ConfirmDialog
           title={`Delete “${pendingDelete.name}”?`}
-          message="The product disappears from the storefront immediately. Reset the demo data to bring the seed catalog back."
+          message="It disappears from the storefront right away. Reset the demo data to get the seed catalog back."
           busy={busy}
           onConfirm={handleDelete}
           onCancel={() => setPendingDelete(null)}

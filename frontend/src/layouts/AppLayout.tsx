@@ -25,15 +25,15 @@ function ModeBanners() {
     <div className="mx-auto w-full max-w-6xl space-y-2 px-4 pt-4 empty:hidden">
       {forced && mode === 'browser' && (
         <Banner tone="info" data-testid="forced-browser-banner">
-          This deployed demo runs <strong>fully in your browser</strong> — the API is served by a
-          service worker and data lives in localStorage. For real HTTP/API testing (Postman,
-          RestAssured), clone the repo and run the local backend.
+          This deployment runs <strong>entirely in your browser</strong>. A service worker serves
+          the API and the data sits in localStorage. For real HTTP testing with Postman or
+          RestAssured, clone the repo and start the local backend.
         </Banner>
       )}
       {fallback && !fallbackDismissed && (
         <Banner tone="warning" onDismiss={dismissFallback} data-testid="fallback-banner">
-          Backend unreachable at <code>localhost:8000</code> — switched to in-browser mode. Start
-          the backend (<code>npm run dev:backend</code>) and flip the toggle to go back.
+          Nothing answering at <code>localhost:8000</code>, so we switched to in-browser mode. Run{' '}
+          <code>npm run dev:backend</code> and flip the toggle to come back.
         </Banner>
       )}
     </div>
@@ -196,7 +196,7 @@ function AppChrome() {
               Source on GitHub
             </a>
             <span aria-hidden="true">·</span>
-            <span>A sandbox for practicing test automation</span>
+            <span>A sandbox for practising test automation</span>
           </p>
         </div>
       </footer>

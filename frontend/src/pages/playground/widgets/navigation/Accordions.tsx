@@ -20,8 +20,8 @@ export function DetailsAccordion() {
           Why native details wins
         </summary>
         <p className="mt-2 text-sm leading-relaxed text-mist-300">
-          Free keyboard support, free semantics, findable via the open attribute — no JavaScript
-          shipped at all.
+          Keyboard support and semantics for free, state readable from the open attribute, and
+          not one line of JavaScript shipped.
         </p>
       </details>
       <details
@@ -34,8 +34,8 @@ export function DetailsAccordion() {
           How to assert it
         </summary>
         <p className="mt-2 text-sm leading-relaxed text-mist-300">
-          Check the open attribute on the details element, or simply assert the revealed text is
-          visible.
+          Assert the open attribute on the details element, or just assert the revealed text is
+          visible. Either holds up.
         </p>
       </details>
       <Readout testId="navigation-details-readout" label="Times opened" value={String(openCount)} />
@@ -65,8 +65,8 @@ export function DisclosureAccordion() {
       </button>
       {open && (
         <p className="rounded-lg border border-ink-700 bg-ink-950/60 p-3 text-sm leading-relaxed text-mist-300">
-          The trigger's aria-expanded flips between true and false — assert that attribute instead
-          of guessing at CSS classes.
+          The trigger's aria-expanded flips between true and false. Assert that attribute rather
+          than guessing which CSS class means open this week.
         </p>
       )}
     </VariantCard>
@@ -94,8 +94,9 @@ export function LegacySlideAccordion() {
         className="overflow-hidden transition-all duration-300"
       >
         <p className="p-3 text-sm leading-relaxed text-mist-300">
-          Height-animated div: it is "closed" but this text is still in the DOM and still matches
-          text queries. Visibility assertions must check the collapsed height.
+          This div is "closed" by animating its height to zero. The text is still in the DOM and
+          still matches text queries, so a presence check passes on a panel nobody can read. Assert
+          the collapsed height.
         </p>
       </div>
       <Readout testId="navigation-slide-readout" label="State" value={open ? 'open' : 'closed'} />

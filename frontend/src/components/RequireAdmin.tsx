@@ -36,16 +36,17 @@ export default function RequireAdmin() {
         </h1>
         <p className="mt-3 text-sm leading-relaxed text-mist-300">
           You are signed in as{' '}
-          <strong className="text-mist-100">{user?.email ?? 'a customer account'}</strong> with the{' '}
-          <strong className="text-mist-100">{user?.role ?? 'customer'}</strong> role. The API returns{' '}
-          <code className="rounded bg-ink-800 px-1 py-0.5 text-xs text-mist-200">403 FORBIDDEN</code> for
-          every <code className="rounded bg-ink-800 px-1 py-0.5 text-xs text-mist-200">/api/admin/*</code>{' '}
-          call made with this token, and the UI mirrors that here.
+          <strong className="text-mist-100">{user?.email ?? 'a customer account'}</strong>, role{' '}
+          <strong className="text-mist-100">{user?.role ?? 'customer'}</strong>. Any{' '}
+          <code className="rounded bg-ink-800 px-1 py-0.5 text-xs text-mist-200">/api/admin/*</code>{' '}
+          call with this token comes back{' '}
+          <code className="rounded bg-ink-800 px-1 py-0.5 text-xs text-mist-200">403 FORBIDDEN</code>, and
+          the UI shows you the same thing rather than redirecting quietly.
         </p>
         <p className="mt-3 text-sm leading-relaxed text-mist-400">
-          Log out and sign back in with the seeded admin account —{' '}
+          Log out and sign back in as{' '}
           <span className="font-mono text-xs text-mist-200">admin@example.com</span> /{' '}
-          <span className="font-mono text-xs text-mist-200">Admin123!</span> — to reach the dashboard.
+          <span className="font-mono text-xs text-mist-200">Admin123!</span> to reach the dashboard.
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
           <Link

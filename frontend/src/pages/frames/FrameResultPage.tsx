@@ -20,8 +20,8 @@ export default function FrameResultPage() {
     <div data-testid="frame-result">
       <h1 className="font-display text-lg font-bold text-mist-50">Result page</h1>
       <p className="mt-1 text-xs text-mist-400">
-        Opened from the Windows &amp; dialogs playground. On load this page wrote a handshake
-        value to localStorage; the opener tab polls for it and shows it in its readout.
+        Opened from the Windows &amp; dialogs playground. This page wrote a handshake value to
+        localStorage on load, and the opener tab polls for it and shows it in its readout.
       </p>
       <p
         data-testid="frame-result-message"
@@ -30,7 +30,7 @@ export default function FrameResultPage() {
         {value || 'writing handshake…'}
       </p>
       <p className="mt-3 text-xs text-mist-500">
-        You can close this tab/window once your script has read the value.
+        Close this tab once your script has read the value.
       </p>
     </div>
   )

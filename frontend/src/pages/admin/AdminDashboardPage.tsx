@@ -92,8 +92,8 @@ export default function AdminDashboardPage() {
     <div className="space-y-8">
       <PageIntro
         title="Admin dashboard"
-        what="The role-guarded control room. Everything here comes from GET /api/admin/stats plus the admin product list, so only a token with role=admin can render it — a customer token gets a 403 page instead."
-        how="Read the four tiles for the headline numbers, then use the two charts for the breakdown. Both charts publish the same numbers as a data table underneath, so assertions never have to read pixels."
+        what="The role-guarded side of the store. Everything comes from GET /api/admin/stats and the admin product list, so a customer token renders a 403 page instead of this."
+        how="Four tiles for the headline numbers, two charts for the breakdown. Each chart repeats its numbers in a screen-reader table underneath, so you can assert the values without going anywhere near a pixel."
       />
 
       <AdminNav />
@@ -113,19 +113,19 @@ export default function AdminDashboardPage() {
               data-testid="stat-total-revenue"
               label="Total revenue"
               value={formatMoney(stats.totalRevenue)}
-              hint="Sum of every non-cancelled order total."
+              hint="Every order total except cancelled ones."
             />
             <StatTile
               data-testid="stat-order-count"
               label="Orders"
               value={String(stats.orderCount)}
-              hint="Non-cancelled orders across all customers."
+              hint="All customers, cancelled orders excluded."
             />
             <StatTile
               data-testid="stat-avg-order-value"
               label="Average order value"
               value={formatMoney(averageOrderValue)}
-              hint="Total revenue divided by the order count."
+              hint="Revenue divided by order count."
             />
             <StatTile
               data-testid="stat-low-stock"
@@ -145,8 +145,8 @@ export default function AdminDashboardPage() {
               </p>
               <h2 className="font-display mt-3 text-lg font-bold">No orders to chart yet</h2>
               <p className="mt-1 text-sm text-mist-400">
-                The charts appear as soon as the first order exists. Place one in the store first — add a
-                product to the cart and complete checkout with card 4111 1111 1111 1111.
+                The charts show up as soon as one order exists. Go and buy something with card
+                4111 1111 1111 1111, then come back.
               </p>
               <Link
                 to="/shop/catalog"
@@ -184,7 +184,7 @@ export default function AdminDashboardPage() {
           {stats.topProducts.length > 0 && (
             <section className="rounded-2xl border border-ink-700 bg-ink-900 p-6">
               <h2 className="font-display text-base font-bold text-mist-50">Top products</h2>
-              <p className="mt-1 text-xs text-mist-400">Highest unit volume, capped at five by the API.</p>
+              <p className="mt-1 text-xs text-mist-400">By units sold. The API returns five at most.</p>
               <table data-testid="top-products-table" className="mt-4 w-full text-left text-sm">
                 <caption className="sr-only">Top products by units sold</caption>
                 <thead className="text-xs uppercase tracking-widest text-mist-500">

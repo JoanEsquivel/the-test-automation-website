@@ -9,14 +9,14 @@ export default function ShadowPage() {
     <div>
       <PageIntro
         title="Shadow DOM"
-        what="Three vanilla custom elements: an open shadow input, a counter with a NESTED open shadow root, and a vault with a CLOSED root — the near-unautomatable case."
-        how="Playwright locators pierce OPEN shadow roots automatically (CSS engine limitation aside: XPath does not). Selenium needs element.getShadowRoot() per level. Every widget here also mirrors its state to a light-DOM attribute on the host (data-value / data-count / data-unlocked) — assert those when you cannot, or should not, pierce."
+        what="Three vanilla custom elements: an input in an open shadow root, a counter with a NESTED open root, and a vault with a CLOSED root you cannot get into."
+        how="Playwright CSS locators pierce OPEN shadow roots on their own. XPath does not, which trips people up. Selenium needs element.getShadowRoot() once per level. Every widget here also mirrors its state onto a light-DOM attribute on the host (data-value, data-count, data-unlocked), so assert those when you cannot pierce, or when you should not."
       />
       <DifficultySelector />
 
       <WidgetSection
         title="Open shadow roots"
-        description="Reachable by tools — directly in Playwright, via getShadowRoot() in Selenium. The host attribute mirror gives you a piercing-free assertion target."
+        description="Both tools can reach these: Playwright directly, Selenium through getShadowRoot(). The mirrored host attribute gives you something to assert without piercing anything."
         columns="md:grid-cols-2"
       >
         <VariantCard name="<taw-shadow-input> — open root" verdict="challenge">
@@ -26,7 +26,7 @@ export default function ShadowPage() {
           </p>
           <AutomationNote>
             Playwright: <code>page.getByTestId(&apos;shadow-input-host&apos;).locator(&apos;input&apos;)</code>{' '}
-            just works — open roots are transparent to its CSS locators. Selenium:{' '}
+            just works, because open roots are transparent to its CSS locators. Selenium:{' '}
             <code>host.getShadowRoot().findElement(By.cssSelector(&apos;input&apos;))</code>.
           </AutomationNote>
         </VariantCard>
@@ -39,24 +39,25 @@ export default function ShadowPage() {
           </p>
           <AutomationNote>
             Playwright pierces both levels with one selector. In Selenium you must call{' '}
-            <code>getShadowRoot()</code> once per level — cache nothing, roots can be re-created.
+            <code>getShadowRoot()</code> once per level. Do not cache the handle: the root can be
+            re-created under you.
           </AutomationNote>
         </VariantCard>
       </WidgetSection>
 
       <WidgetSection
         title="Closed shadow root — the evil case"
-        description="attachShadow({ mode: 'closed' }) returns a root the element keeps private: host.shadowRoot is null, so neither Playwright's CSS engine nor Selenium's getShadowRoot() can enter."
+        description="attachShadow({ mode: 'closed' }) hands the root to the element and nobody else. host.shadowRoot is null, so Playwright's CSS engine and Selenium's getShadowRoot() are both locked out."
         columns="md:grid-cols-1"
       >
         <VariantCard name="<taw-shadow-vault> — closed root" verdict="evil">
           <taw-shadow-vault data-testid="shadow-vault-host" />
           <div className="text-xs leading-relaxed text-mist-400">
             <p>
-              Why is this near-unautomatable? The DOM inside a closed root is simply not
-              reachable from outside JavaScript — there is no handle to query. Real applications
-              that ship closed roots (or web components from third-party vendors) must expose
-              deliberate testing hooks instead:
+              There is no handle to query. The DOM inside a closed root is not reachable from
+              outside JavaScript at all, so no clever selector is coming to save you. Components
+              that ship closed roots, which usually means third-party ones, have to expose testing
+              hooks on purpose:
             </p>
             <ul className="mt-2 list-disc space-y-1 pl-5">
               <li>mirror state to host attributes (this vault sets <code className="text-volt-300">data-unlocked</code>),</li>
@@ -67,7 +68,7 @@ export default function ShadowPage() {
           <AutomationNote>
             Do not fight the boundary. Assert the contract the component exposes:{' '}
             <code>expect(host).toHaveAttribute(&apos;data-unlocked&apos;, &apos;true&apos;)</code>.
-            If a component offers no hooks at all, that is a bug to file, not a locator to hack.
+            A component with no hooks at all is a bug to file, not a locator to hack around.
           </AutomationNote>
         </VariantCard>
       </WidgetSection>

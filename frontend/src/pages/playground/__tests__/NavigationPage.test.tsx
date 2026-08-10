@@ -39,7 +39,7 @@ describe('NavigationPage', () => {
     render(<NavigationPage />)
     const summary = screen.getByText(/why native details wins/i)
     await user.click(summary)
-    expect(screen.getByText(/free keyboard support/i)).toBeVisible()
+    expect(screen.getByText(/keyboard support and semantics for free/i)).toBeVisible()
   })
 
   it('opens the ARIA disclosure accordion', async () => {

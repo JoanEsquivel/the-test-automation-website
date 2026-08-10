@@ -22,9 +22,8 @@ export function StaleElementTrap() {
   return (
     <VariantCard name="4. Stale element trap" verdict="challenge">
       <p className="text-xs text-mist-400">
-        Every 3 seconds this list is rebuilt with brand-new DOM nodes (the React keys change).
-        A WebElement reference held across the re-render throws StaleElementReferenceException
-        in Selenium.
+        Every 3 seconds the React keys change and this list is rebuilt from brand-new DOM nodes.
+        Hold a WebElement across that and Selenium throws StaleElementReferenceException.
       </p>
       <ul className="divide-y divide-ink-700 rounded-lg border border-ink-700">
         {STALE_ROWS.map((label, index) => (
@@ -41,9 +40,9 @@ export function StaleElementTrap() {
       </ul>
       <ChallengeReadout testId="dynamic-stale-generation" label="Generation" value={String(generation)} />
       <AutomationNote>
-        Re-find elements at the moment you use them. Playwright locators re-resolve on every
-        action, which is why this trap cannot hurt them; in Selenium, re-locate inside a retry
-        loop instead of caching WebElements.
+        Find elements at the moment you use them. Playwright locators re-resolve on every action,
+        so this trap cannot touch them. In Selenium, re-locate inside a retry loop instead of
+        caching WebElements in a page object.
       </AutomationNote>
     </VariantCard>
   )
@@ -72,8 +71,8 @@ export function AutoDismissToasts({ delayMs }: DelayProps) {
   return (
     <VariantCard name="5. Auto-dismiss toasts" verdict="challenge">
       <p className="text-xs text-mist-400">
-        Toasts vanish on their own after the delay. Assert them BEFORE they disappear — or
-        assert that they eventually do.
+        Toasts remove themselves after the delay. Catch one BEFORE it goes, or assert that it
+        eventually goes. Both are legitimate tests.
       </p>
       <div className="flex gap-2">
         <Button size="sm" onClick={() => fire('success')}>
@@ -105,9 +104,9 @@ export function AutoDismissToasts({ delayMs }: DelayProps) {
         ))}
       </div>
       <AutomationNote>
-        Auto-waiting assertions catch toasts reliably; grab the text the moment the locator
-        resolves. To verify dismissal, assert the locator is hidden — with a timeout larger
-        than the configured delay.
+        Auto-waiting assertions catch toasts reliably, so read the text the moment the locator
+        resolves. To verify dismissal, assert the locator is hidden with a timeout larger than the
+        configured delay.
       </AutomationNote>
     </VariantCard>
   )
@@ -140,8 +139,8 @@ export function ProgressChallenge({ delayMs }: DelayProps) {
   return (
     <VariantCard name="7. Progress bar" verdict="challenge">
       <p className="text-xs text-mist-400">
-        Starts on click and fills over the configured delay. Wait for the completion banner —
-        not for a percentage you happened to sample.
+        Fills over the configured delay. Wait for the completion banner, not for whatever
+        percentage you happened to sample.
       </p>
       <Button size="sm" onClick={start}>
         Start progress
@@ -162,13 +161,13 @@ export function ProgressChallenge({ delayMs }: DelayProps) {
           data-testid="dynamic-progress-banner"
           className="rounded-lg border border-emerald-500/40 bg-emerald-500/10 px-3 py-2 text-sm text-emerald-300"
         >
-          Task complete — 100%.
+          Task complete, 100%.
         </div>
       ) : null}
       <AutomationNote>
-        Wait for the terminal state (the banner / status text), with a timeout comfortably above
-        the slider value. Polling <code>aria-valuenow</code> is only useful for asserting
-        monotonic progress.
+        Wait for the terminal state, meaning the banner or the status text, with a timeout
+        comfortably above the slider value. Polling <code>aria-valuenow</code> is only worth doing
+        if you want to prove progress never goes backwards.
       </AutomationNote>
     </VariantCard>
   )
@@ -204,8 +203,8 @@ export function InfiniteScrollFeed() {
   return (
     <VariantCard name="6. Infinite scroll" verdict="challenge">
       <p className="text-xs text-mist-400">
-        Scroll the feed — 10 more items load each time the sentinel at the bottom becomes
-        visible, up to {FEED_MAX}. Scripts must scroll INSIDE the container.
+        Ten more items load each time the sentinel at the bottom scrolls into view, up to{' '}
+        {FEED_MAX}. Scroll INSIDE the container: the window scrollbar does nothing here.
       </p>
       <div
         ref={containerRef}
@@ -225,9 +224,9 @@ export function InfiniteScrollFeed() {
       </div>
       <ChallengeReadout testId="dynamic-feed-count" label="Items" value={`${count} / ${FEED_MAX}`} />
       <AutomationNote>
-        Loop: scroll the sentinel into view, then wait for the item count to increase —
-        <code>locator.scrollIntoViewIfNeeded()</code> plus a count assertion. Never scroll the
-        window; the feed has its own scrollbar.
+        Loop it: scroll the sentinel into view, wait for the item count to increase, repeat.{' '}
+        <code>locator.scrollIntoViewIfNeeded()</code> plus a count assertion. The feed has its own
+        scrollbar, so scrolling the window gets you nowhere.
       </AutomationNote>
     </VariantCard>
   )
