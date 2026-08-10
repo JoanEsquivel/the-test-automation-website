@@ -10,7 +10,8 @@ function productRating(productId: string): number {
   return Math.round((ratings.reduce((a, b) => a + b, 0) / ratings.length) * 10) / 10
 }
 
-function withRating(product: Omit<Product, 'rating'>): Product {
+/** Attach the live review average — the engine twin of `store.product_with_rating`. */
+export function withRating(product: Omit<Product, 'rating'>): Product {
   return { ...product, rating: productRating(product.id) }
 }
 

@@ -8,6 +8,7 @@
 
 import { delay, http, HttpResponse } from 'msw'
 
+import * as admin from '@/engine/admin'
 import * as auth from '@/engine/auth'
 import * as cart from '@/engine/cart'
 import * as catalog from '@/engine/catalog'
@@ -206,4 +207,36 @@ export const handlers = [
     const filePart = formData.get('file')
     return run(() => files.echoUpload(filePart instanceof File ? filePart : null), 201)
   }),
+
+  // -- admin (role `admin` only) ----------------------------------------------
+  http.get('*/api/admin/products', async ({ request }) => {
+    const url = new URL(request.url)
+    return run(() =>
+      admin.listProducts(bearerToken(request), {
+        search: url.searchParams.get('search') ?? undefined,
+        page: url.searchParams.has('page') ? Number(url.searchParams.get('page')) : undefined,
+        pageSize: url.searchParams.has('pageSize') ? Number(url.searchParams.get('pageSize')) : undefined,
+      }),
+    )
+  }),
+  http.post('*/api/admin/products', async ({ request }) => {
+    const body = (await request.json()) as admin.ProductCreateInput
+    return run(() => admin.createProduct(bearerToken(request), body), 201)
+  }),
+  http.put('*/api/admin/products/:productId', async ({ request, params }) => {
+    const body = (await request.json()) as admin.ProductUpdateInput
+    return run(() => admin.updateProduct(bearerToken(request), params.productId as string, body))
+  }),
+  http.delete('*/api/admin/products/:productId', async ({ request, params }) =>
+    run(() => admin.deleteProduct(bearerToken(request), params.productId as string)),
+  ),
+  http.get('*/api/admin/orders', async ({ request }) => {
+    const url = new URL(request.url)
+    return run(() => admin.listAllOrders(bearerToken(request), url.searchParams.get('status') ?? undefined))
+  }),
+  http.patch('*/api/admin/orders/:orderId/status', async ({ request, params }) => {
+    const body = (await request.json()) as { status: string }
+    return run(() => admin.updateOrderStatus(bearerToken(request), params.orderId as string, body.status))
+  }),
+  http.get('*/api/admin/stats', async ({ request }) => run(() => admin.stats(bearerToken(request)))),
 ]

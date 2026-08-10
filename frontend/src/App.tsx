@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react'
 import { Route, Routes } from 'react-router-dom'
 
+import RequireAdmin from '@/components/RequireAdmin'
 import RequireAuth from '@/components/RequireAuth'
 import AppLayout from '@/layouts/AppLayout'
 import BareLayout from '@/layouts/BareLayout'
@@ -34,6 +35,10 @@ const OrderDetailPage = lazy(() => import('@/pages/shop/OrderDetailPage'))
 const WishlistPage = lazy(() => import('@/pages/shop/WishlistPage'))
 const LoginPage = lazy(() => import('@/pages/account/LoginPage'))
 const RegisterPage = lazy(() => import('@/pages/account/RegisterPage'))
+const ProfilePage = lazy(() => import('@/pages/account/ProfilePage'))
+const AdminDashboardPage = lazy(() => import('@/pages/admin/AdminDashboardPage'))
+const AdminProductsPage = lazy(() => import('@/pages/admin/AdminProductsPage'))
+const AdminOrdersPage = lazy(() => import('@/pages/admin/AdminOrdersPage'))
 const NotFoundPage = lazy(() => import('@/pages/NotFoundPage'))
 
 function RouteFallback() {
@@ -71,8 +76,9 @@ export default function App() {
           <Route path="account/login" element={<LoginPage />} />
           <Route path="account/register" element={<RegisterPage />} />
           {/* Signed-in-only area: anonymous visitors bounce to the login page
-              with a ?returnTo=. The profile page joins here next. */}
+              with a ?returnTo=. */}
           <Route element={<RequireAuth />}>
+            <Route path="account/profile" element={<ProfilePage />} />
             <Route path="shop/checkout" element={<CheckoutPage />} />
             <Route path="shop/orders" element={<OrdersPage />} />
             {/* The confirmation route is declared before the detail route so the
@@ -80,6 +86,12 @@ export default function App() {
             <Route path="shop/orders/:orderId/confirmation" element={<ConfirmationPage />} />
             <Route path="shop/orders/:orderId" element={<OrderDetailPage />} />
             <Route path="shop/wishlist" element={<WishlistPage />} />
+          </Route>
+          {/* Admin-only area: no token → login redirect, wrong role → 403 page. */}
+          <Route element={<RequireAdmin />}>
+            <Route path="admin" element={<AdminDashboardPage />} />
+            <Route path="admin/products" element={<AdminProductsPage />} />
+            <Route path="admin/orders" element={<AdminOrdersPage />} />
           </Route>
           <Route path="*" element={<NotFoundPage />} />
         </Route>
