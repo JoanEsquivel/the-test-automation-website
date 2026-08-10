@@ -40,6 +40,7 @@ class MemoryStore:
 
         # Runtime-only collections (never seeded)
         self.carts: dict[str, dict] = {}
+        self.user_carts: dict[str, str] = {}  # userId -> cartId
         self.orders: dict[str, dict] = {}
         self.wishlists: dict[str, list[dict]] = {}
         self._order_counter = itertools.count(1)

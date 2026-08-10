@@ -43,10 +43,35 @@ def register(body: RegisterInput, request: Request) -> AuthResponse:
 
 @router.post("/login", response_model=AuthResponse)
 def login(body: LoginInput, request: Request) -> AuthResponse:
-    user = _store(request).user_by_email(body.email)
+    store = _store(request)
+    user = store.user_by_email(body.email)
     if user is None or not verify_password(body.password, user["passwordHash"]):
         raise ApiError(401, "INVALID_CREDENTIALS", "Email or password is incorrect.")
+    _merge_guest_cart(store, request, user)
     return AuthResponse(token=create_token(user), user=_public(user))
+
+
+def _merge_guest_cart(store, request: Request, user: dict) -> None:
+    """If the login request carries an X-Cart-Id, merge that guest cart into the user's cart."""
+    from app.routers.cart import user_cart
+    from app.services.commerce import refresh_cart
+
+    guest_cart_id = request.headers.get("X-Cart-Id")
+    if not guest_cart_id:
+        return
+    guest_cart = store.carts.get(guest_cart_id)
+    if guest_cart is None or guest_cart.get("ownerUserId"):
+        return
+    target = user_cart(store, user["id"])
+    for guest_item in guest_cart["items"]:
+        existing = next((i for i in target["items"] if i["productId"] == guest_item["productId"]), None)
+        if existing:
+            existing["qty"] += guest_item["qty"]
+            existing["lineTotal"] = round(existing["unitPrice"] * existing["qty"], 2)
+        else:
+            target["items"].append(dict(guest_item))
+    refresh_cart(store, target)
+    del store.carts[guest_cart_id]
 
 
 @router.post("/logout", status_code=204)
