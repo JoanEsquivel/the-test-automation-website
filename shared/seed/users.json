@@ -1,0 +1,39 @@
+[
+  {
+    "id": "user-customer",
+    "email": "customer@example.com",
+    "password": "Password123!",
+    "name": "Casey Customer",
+    "role": "customer",
+    "addresses": [
+      {
+        "id": "addr-home",
+        "label": "Home",
+        "fullName": "Casey Customer",
+        "street": "742 Evergreen Terrace",
+        "city": "Springfield",
+        "zip": "49007",
+        "country": "United States",
+        "isDefault": true
+      },
+      {
+        "id": "addr-office",
+        "label": "Office",
+        "fullName": "Casey Customer",
+        "street": "1 Automation Plaza, Suite 400",
+        "city": "San Jose",
+        "zip": "95113",
+        "country": "United States",
+        "isDefault": false
+      }
+    ]
+  },
+  {
+    "id": "user-admin",
+    "email": "admin@example.com",
+    "password": "Admin123!",
+    "name": "Alex Admin",
+    "role": "admin",
+    "addresses": []
+  }
+]

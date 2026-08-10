@@ -1,0 +1,6 @@
+[
+  { "code": "WELCOME10", "type": "percent", "value": 10, "minSubtotal": 0, "expiresAt": "2030-01-01T00:00:00Z", "active": true },
+  { "code": "SAVE20", "type": "fixed", "value": 20, "minSubtotal": 100, "expiresAt": "2030-01-01T00:00:00Z", "active": true },
+  { "code": "EXPIRED50", "type": "percent", "value": 50, "minSubtotal": 0, "expiresAt": "2020-01-01T00:00:00Z", "active": true },
+  { "code": "DISABLED5", "type": "fixed", "value": 5, "minSubtotal": 0, "expiresAt": "2030-01-01T00:00:00Z", "active": false }
+]

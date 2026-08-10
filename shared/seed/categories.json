@@ -1,0 +1,7 @@
+[
+  { "id": "audio", "name": "Audio", "emoji": "🎧", "description": "Headphones, speakers and everything that sounds great." },
+  { "id": "wearables", "name": "Wearables", "emoji": "⌚", "description": "Smart watches, bands and rings you wear every day." },
+  { "id": "gaming", "name": "Gaming", "emoji": "🎮", "description": "Controllers, keyboards and gear for serious play." },
+  { "id": "smart-home", "name": "Smart Home", "emoji": "🏠", "description": "Lights, plugs and sensors that automate your home." },
+  { "id": "accessories", "name": "Accessories", "emoji": "🔌", "description": "Cables, hubs, stands and the little things that matter." }
+]

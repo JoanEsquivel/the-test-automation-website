@@ -1,0 +1,20 @@
+{
+  "name": "the-test-automation-website",
+  "version": "1.0.0",
+  "private": true,
+  "description": "The definitive practice app for web & API test automation",
+  "workspaces": [
+    "frontend",
+    "e2e"
+  ],
+  "scripts": {
+    "dev": "npm run dev -w frontend",
+    "dev:backend": "cd backend && uv run uvicorn app.main:app --reload --port 8000",
+    "build": "npm run build -w frontend",
+    "build:pages": "VITE_FORCE_BROWSER_MODE=true VITE_BASE=/the-test-automation-website/ npm run build -w frontend",
+    "preview": "npm run preview -w frontend",
+    "test": "npm run test -w frontend",
+    "test:backend": "cd backend && uv run pytest",
+    "e2e": "npm run test -w e2e"
+  }
+}
