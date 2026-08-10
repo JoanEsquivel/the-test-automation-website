@@ -38,7 +38,7 @@ export default function HomePage() {
     <div className="space-y-14">
       <section className="bg-blueprint relative overflow-hidden rounded-3xl border border-ink-700 bg-ink-900 px-6 py-14 text-center sm:px-12">
         <p className="mb-3 text-xs font-semibold uppercase tracking-[0.3em] text-volt-400">
-          Selenium · Playwright · Cypress · Postman · RestAssured
+          Web and API automation · any framework
         </p>
         <h1 className="font-display mx-auto max-w-3xl text-4xl font-bold leading-tight tracking-tight sm:text-5xl">
           A place to practise <span className="text-gradient">test automation</span>
