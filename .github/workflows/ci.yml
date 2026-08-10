@@ -22,7 +22,7 @@ jobs:
         run: uv run pytest
 
   frontend-checks:
-    name: Frontend typecheck, tests & build
+    name: Frontend ATDD suite (vitest)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -32,7 +32,35 @@ jobs:
           cache: npm
       - name: Install dependencies
         run: npm ci
+      - name: Lint (oxlint)
+        working-directory: frontend
+        run: npx oxlint
       - name: Unit & component tests
         run: npm run test --workspace=frontend --if-present -- --run
       - name: Build
         run: npm run build
+
+  pages-build:
+    name: GitHub Pages build (frontend-only bundle)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      # Mirrors deploy-pages.yml exactly so a Pages-breaking change fails on the
+      # pull request instead of at deploy time.
+      - name: Build for GitHub Pages
+        run: npm run build:pages
+      - name: Add SPA deep-link fallback
+        run: cp frontend/dist/index.html frontend/dist/404.html
+      - name: Verify Pages artifact
+        run: |
+          test -f frontend/dist/index.html
+          test -f frontend/dist/404.html
+          test -f frontend/dist/mockServiceWorker.js
+          test -f frontend/dist/.nojekyll
+          grep -q '/the-test-automation-website/assets/' frontend/dist/index.html
