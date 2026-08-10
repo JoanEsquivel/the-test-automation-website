@@ -8,6 +8,10 @@ contract lives in docs/02-specs/api-contract.md.
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.core.errors import register_error_handlers
+from app.routers import auth, products
+from app.store.memory import MemoryStore
+
 APP_VERSION = "1.0.0"
 
 CORS_ORIGINS = [
@@ -35,6 +39,11 @@ def create_app() -> FastAPI:
         allow_headers=["*"],
         expose_headers=["Content-Disposition"],
     )
+
+    app.state.store = MemoryStore()
+    register_error_handlers(app)
+    app.include_router(auth.router)
+    app.include_router(products.router)
 
     @app.get("/api/health", tags=["health"])
     def health() -> dict:
