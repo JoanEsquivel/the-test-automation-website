@@ -81,6 +81,17 @@
     color: transparent;
   }
 
+  /* Draining bar on auto-dismiss toasts (playground dynamic challenges).
+     The global prefers-reduced-motion rule collapses it to an instant jump. */
+  @keyframes toast-progress {
+    from {
+      width: 100%;
+    }
+    to {
+      width: 0%;
+    }
+  }
+
   /* Faint blueprint grid used on hero surfaces */
   .bg-blueprint {
     background-image:

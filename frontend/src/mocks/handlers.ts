@@ -10,6 +10,7 @@ import { delay, http, HttpResponse } from 'msw'
 
 import * as auth from '@/engine/auth'
 import * as catalog from '@/engine/catalog'
+import * as files from '@/engine/files'
 import { EngineError } from '@/engine/errors'
 import type { ProductQuery } from '@/api/types'
 
@@ -107,4 +108,33 @@ export const handlers = [
     run(() => catalog.getProduct(params.productId as string)),
   ),
   http.get('*/api/categories', async () => run(() => catalog.listCategories())),
+
+  // -- files ------------------------------------------------------------------
+  // In browser mode the service worker streams these generated blobs, so the
+  // download links behave exactly like real attachment responses.
+  http.get('*/api/files/products.csv', async () => {
+    await latency()
+    return new HttpResponse(files.productsCsv(), {
+      status: 200,
+      headers: {
+        'Content-Type': 'text/csv',
+        'Content-Disposition': 'attachment; filename="products.csv"',
+      },
+    })
+  }),
+  http.get('*/api/files/sample-report.pdf', async () => {
+    await latency()
+    return new HttpResponse(new Uint8Array(files.sampleReportPdf()).buffer, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/pdf',
+        'Content-Disposition': 'attachment; filename="sample-report.pdf"',
+      },
+    })
+  }),
+  http.post('*/api/files/upload', async ({ request }) => {
+    const formData = await request.formData()
+    const filePart = formData.get('file')
+    return run(() => files.echoUpload(filePart instanceof File ? filePart : null), 201)
+  }),
 ]

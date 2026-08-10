@@ -1,9 +1,10 @@
-// ATDD: hub page lists all categories from the registry — live ones as links,
-// next-phase ones as non-link cards with a "Next phase" badge.
-import { render, screen } from '@testing-library/react'
+// ATDD: hub page lists all categories from the registry as live link cards,
+// with an expandable automation cheat-sheet on the challenge categories.
+import { render, screen, within } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import { describe, expect, it } from 'vitest'
 
+import { PLAYGROUND_CATEGORIES } from '@/playground/registry'
 import PlaygroundHubPage from '../PlaygroundHubPage'
 
 function renderHub() {
@@ -15,26 +16,28 @@ function renderHub() {
 }
 
 describe('PlaygroundHubPage', () => {
-  it('renders link cards for the six live categories', () => {
+  it('renders a link card for every category — nothing is coming soon anymore', () => {
     renderHub()
-    for (const slug of ['forms', 'dropdowns', 'pickers', 'tables', 'modals', 'navigation']) {
-      const card = screen.getByTestId(`category-${slug}`)
-      expect(card.tagName).toBe('A')
-      expect(card).toHaveAttribute('href', `/playground/${slug}`)
+    for (const category of PLAYGROUND_CATEGORIES) {
+      const card = screen.getByTestId(`category-${category.slug}`)
+      const link = within(card).getByRole('link')
+      expect(link).toHaveAttribute('href', category.path)
     }
+    expect(screen.queryByText(/next phase/i)).not.toBeInTheDocument()
   })
 
-  it('renders coming-soon categories as non-link cards with a Next phase badge', () => {
+  it('shows an automation cheat-sheet on the challenge categories', () => {
     renderHub()
     for (const slug of ['dynamic', 'frames', 'shadow', 'windows', 'files', 'interactions']) {
       const card = screen.getByTestId(`category-${slug}`)
-      expect(card.tagName).not.toBe('A')
-      expect(card).toHaveTextContent(/next phase/i)
+      expect(within(card).getByText(/automation cheat-sheet/i)).toBeInTheDocument()
     }
   })
 
-  it('no longer shows the old coming-soon placeholder', () => {
+  it('cheat-sheet lists tool + API pairs (frames example)', () => {
     renderHub()
-    expect(screen.queryByTestId('coming-soon')).not.toBeInTheDocument()
+    const card = screen.getByTestId('category-frames')
+    expect(within(card).getByText(/frameLocator/)).toBeInTheDocument()
+    expect(within(card).getByText(/switchTo\(\)\.frame/)).toBeInTheDocument()
   })
 })

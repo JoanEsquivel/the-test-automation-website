@@ -1,3 +1,8 @@
+export interface CheatSheetEntry {
+  tool: string
+  api: string
+}
+
 export interface PlaygroundCategory {
   slug: string
   title: string
@@ -6,6 +11,8 @@ export interface PlaygroundCategory {
   path: string
   /** Pages for these arrive in the automation-challenges phase. */
   comingSoon?: boolean
+  /** Which tool APIs map to this category's challenges (hub cheat-sheet). */
+  cheatSheet?: CheatSheetEntry[]
 }
 
 /** Single source of truth for the playground hub cards and category routes. */
@@ -58,7 +65,10 @@ export const PLAYGROUND_CATEGORIES: PlaygroundCategory[] = [
     emoji: '⏳',
     description: 'Delays, spinners, stale elements, toasts, infinite scroll and progress bars.',
     path: '/playground/dynamic',
-    comingSoon: true,
+    cheatSheet: [
+      { tool: 'Playwright', api: 'expect(locator).toBeVisible() — assertions auto-wait' },
+      { tool: 'Selenium', api: 'WebDriverWait + ExpectedConditions (never sleep())' },
+    ],
   },
   {
     slug: 'frames',
@@ -66,7 +76,10 @@ export const PLAYGROUND_CATEGORIES: PlaygroundCategory[] = [
     emoji: '🖼️',
     description: 'Simple and nested iframes with forms submitting inside the frame.',
     path: '/playground/frames',
-    comingSoon: true,
+    cheatSheet: [
+      { tool: 'Playwright', api: "page.frameLocator('iframe[title=…]')" },
+      { tool: 'Selenium', api: 'driver.switchTo().frame(…) / defaultContent()' },
+    ],
   },
   {
     slug: 'shadow',
@@ -74,7 +87,10 @@ export const PLAYGROUND_CATEGORIES: PlaygroundCategory[] = [
     emoji: '👥',
     description: 'Open, nested and closed shadow roots — including the near-unautomatable case.',
     path: '/playground/shadow',
-    comingSoon: true,
+    cheatSheet: [
+      { tool: 'Playwright', api: 'regular locators pierce open shadow roots automatically' },
+      { tool: 'Selenium', api: 'element.getShadowRoot() (open roots only)' },
+    ],
   },
   {
     slug: 'windows',
@@ -82,7 +98,10 @@ export const PLAYGROUND_CATEGORIES: PlaygroundCategory[] = [
     emoji: '🗔',
     description: 'New tabs, popups and native alert/confirm/prompt handling.',
     path: '/playground/windows',
-    comingSoon: true,
+    cheatSheet: [
+      { tool: 'Playwright', api: "context.waitForEvent('page') + page.on('dialog')" },
+      { tool: 'Selenium', api: 'getWindowHandles() + switchTo().window() / alert()' },
+    ],
   },
   {
     slug: 'files',
@@ -90,7 +109,10 @@ export const PLAYGROUND_CATEGORIES: PlaygroundCategory[] = [
     emoji: '📁',
     description: 'Downloads and uploads with drag-drop plus a server echo for assertions.',
     path: '/playground/files',
-    comingSoon: true,
+    cheatSheet: [
+      { tool: 'Playwright', api: "page.waitForEvent('download') / setInputFiles()" },
+      { tool: 'Selenium', api: 'sendKeys(absolutePath) on input[type=file]' },
+    ],
   },
   {
     slug: 'interactions',
@@ -98,6 +120,9 @@ export const PLAYGROUND_CATEGORIES: PlaygroundCategory[] = [
     emoji: '🖱️',
     description: 'Drag & drop, sliders, canvas, hover menus, context menus and long presses.',
     path: '/playground/interactions',
-    comingSoon: true,
+    cheatSheet: [
+      { tool: 'Playwright', api: 'locator.dragTo() / hover() / page.mouse API' },
+      { tool: 'Selenium', api: 'Actions API — dragAndDrop, moveToElement, clickAndHold' },
+    ],
   },
 ]

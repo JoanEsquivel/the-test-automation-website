@@ -11,6 +11,8 @@ export const VERDICTS = {
   advanced: { label: 'Advanced pattern', tone: 'pulse' },
   legacy: { label: 'Legacy', tone: 'neutral' },
   antiPattern: { label: 'Anti-pattern', tone: 'warning' },
+  challenge: { label: 'Challenge', tone: 'volt' },
+  evil: { label: 'Evil', tone: 'danger' },
 } as const satisfies Record<string, { label: string; tone: BadgeTone }>
 
 export type Verdict = keyof typeof VERDICTS
