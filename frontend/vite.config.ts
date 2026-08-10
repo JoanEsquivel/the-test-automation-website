@@ -1,3 +1,4 @@
+/// <reference types="vitest/config" />
 import path from 'node:path'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
@@ -10,9 +11,9 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, 'src'),
+      '@': path.resolve(import.meta.dirname, 'src'),
       // shared/seed is the single source of truth for demo data (also read by FastAPI)
-      '@seed': path.resolve(__dirname, '../shared/seed'),
+      '@seed': path.resolve(import.meta.dirname, '../shared/seed'),
     },
   },
   server: {
@@ -20,5 +21,12 @@ export default defineConfig({
       // allow importing @seed from outside the frontend root
       allow: ['..'],
     },
+  },
+  test: {
+    environment: 'jsdom',
+    // globals enables Testing Library's automatic DOM cleanup between tests
+    globals: true,
+    setupFiles: ['./src/test/setup.ts'],
+    css: false,
   },
 })

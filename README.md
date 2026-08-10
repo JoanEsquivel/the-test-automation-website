@@ -3,6 +3,9 @@
 The definitive practice application for **web and API test automation** — built to work with any
 tool on the market: Selenium, Playwright, Cypress, WebdriverIO, Postman, RestAssured, and more.
 
+**🌐 Live site:** <https://joanesquivel.github.io/the-test-automation-website/>
+(frontend-only mode — run locally for full API testing)
+
 > 🚧 Under construction. This README will grow with the project; the full quickstart lands in the
 > documentation phase.
 

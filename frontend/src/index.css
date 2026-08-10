@@ -1,1 +1,91 @@
+@import '@fontsource-variable/space-grotesk';
 @import 'tailwindcss';
+
+@theme {
+  /* Typography */
+  --font-display: 'Space Grotesk Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  /* Ink — deep space backgrounds */
+  --color-ink-950: #070b14;
+  --color-ink-900: #0b1020;
+  --color-ink-800: #121a30;
+  --color-ink-700: #1c2742;
+  --color-ink-600: #2b3a5e;
+
+  /* Mist — text on ink (AA-checked against ink-900) */
+  --color-mist-500: #7e8aa5;
+  --color-mist-400: #94a0ba;
+  --color-mist-300: #b3bdd2;
+  --color-mist-200: #ccd4e4;
+  --color-mist-50: #eef1f8;
+
+  /* Volt — electric cyan accent */
+  --color-volt-300: #67e8f9;
+  --color-volt-400: #22d3ee;
+  --color-volt-500: #06b6d4;
+  --color-volt-600: #0891b2;
+
+  /* Pulse — violet accent */
+  --color-pulse-300: #c4b5fd;
+  --color-pulse-400: #a78bfa;
+  --color-pulse-500: #8b5cf6;
+  --color-pulse-600: #7c3aed;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-ink-950 text-mist-50 font-sans antialiased;
+  }
+
+  /* Visible, consistent focus for keyboard users everywhere */
+  :focus-visible {
+    outline: 2px solid var(--color-volt-400);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background: var(--color-pulse-600);
+    color: var(--color-mist-50);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  /* Skip link: hidden until focused (a11y requirement) */
+  .skip-link {
+    @apply sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-volt-500 focus:px-4 focus:py-2 focus:font-semibold focus:text-ink-950;
+  }
+
+  .text-gradient {
+    background: linear-gradient(100deg, var(--color-volt-400), var(--color-pulse-400));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Faint blueprint grid used on hero surfaces */
+  .bg-blueprint {
+    background-image:
+      linear-gradient(to right, color-mix(in srgb, var(--color-ink-600) 26%, transparent) 1px, transparent 1px),
+      linear-gradient(to bottom, color-mix(in srgb, var(--color-ink-600) 26%, transparent) 1px, transparent 1px);
+    background-size: 44px 44px;
+  }
+}
